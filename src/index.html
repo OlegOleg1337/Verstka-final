@@ -1,16 +1,435 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
   <head>
     <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Услуги и сервис</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
     />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title><%= htmlWebpackPlugin.options.title %></title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
   </head>
   <body>
-    <img src="./img/webpack.svg" alt="Webpack Logo" width="200px" />
-    <h3>Welcome to Webpack 5 starter </h3>
+    <aside class="sidebar-menu" id="sidebarMenu">
+      <div class="menu-header">
+        <div class="icon close" id="closeMenuBtn">
+          <img src="./img/burger.png" alt="Close" />
+        </div>
+        <div class="logo">
+          <img src="./img/Group.png" alt="Logo" />
+        </div>
+        <div class="icon search">
+          <img src="./img/search.png" alt="Search" />
+        </div>
+      </div>
+      <nav class="menu-items">
+        <a href="#" class="menu-item active">Ремонт техники</a>
+        <a href="#" class="menu-item">Услуги сервиса</a>
+        <a href="#" class="menu-item">Корпоративным клиентам</a>
+        <a href="#" class="menu-item">Партнерам</a>
+        <a href="#" class="menu-item">Производителям</a>
+        <a href="#" class="menu-item">Наши сервисные центры</a>
+        <a href="#" class="menu-item">Контакты</a>
+      </nav>
+      <div class="contact-section">
+        <div class="social-links">
+          <img src="./img/chat copy.png" alt="telephone" />
+          <img src="./img/chat.png" alt="soo" />
+          <img src="./img/profile.png" alt="profile" />
+        </div>
+        <div class="contact-info">
+          <span>mail@cps.com</span>
+          <h1>8 800 890 8900</h1>
+        </div>
+      </div>
+      <div class="language-selector">RU | EN | CH</div>
+    </aside>
+
+    <div class="main-content-wrapper">
+      <header class="header">
+        <div class="header__top">
+          <div class="header__left">
+            <button class="header__burger-btn" id="openMenuBtn">
+              <img src="./img/burger.png" alt="Open menu" />
+            </button>
+          </div>
+          <h1 class="header__title-mobile services__title">Услуги и сервис</h1>
+          <div class="header__actions">
+            <button class="header__button header__button--request">
+              <img src="./img/repair.png" alt="Оставить заявку" />
+              <span>Оставить заявку</span>
+            </button>
+            <button class="header__button header__button--status">
+              <img src="./img/checkstatus.png" alt="Статус ремонта" />
+              <span>Статус ремонта</span>
+            </button>
+          </div>
+        </div>
+
+        <h1 class="header__title-desktop services__title">Услуги и сервис</h1>
+
+        <nav class="header__top-nav">
+          <ul class="header__top-nav-list">
+            <li
+              ><a
+                href="#"
+                class="header__top-nav-item header__top-nav-item--active"
+                >Ремонт техники</a
+              ></li
+            >
+            <li><a href="#" class="header__top-nav-item">Услуги сервиса</a></li>
+            <li><a href="#" class="header__top-nav-item">Образование</a></li>
+            <li><a href="#" class="header__top-nav-item">Программы</a></li>
+            <li
+              ><a href="#" class="header__top-nav-item"
+                >Дополнительные услуги</a
+              ></li
+            >
+            <li><a href="#" class="header__top-nav-item">Цены</a></li>
+            <li><a href="#" class="header__top-nav-item">Адреса</a></li>
+            <li><a href="#" class="header__top-nav-item">Отзывы</a></li>
+          </ul>
+        </nav>
+      </header>
+
+      <section class="main-services-section">
+        <div class="main-services__content">
+          <p class="main-services__description">
+            Мы являемся авторизованным сервисным центром по ремонту техники
+            Dell. Только у нас вы можете отремонтировать свой ноутбук Dell с
+            официальной гарантией производителя. Мы успешно работаем с 1992 года
+            и заслужили репутацию надежного партнера, что подтверждает большое
+            количество постоянных клиентов. Мы гордимся тем, что к нам
+            обращаются по рекомендациям и, в свою очередь, советуют нас родным и
+            близким.
+          </p>
+          <a href="#" class="main-services__read-more services__read-more">
+            <span>Подробнее об услугах</span>
+            <img src="./img/expand.png" alt="" />
+          </a>
+        </div>
+        <div class="main-services__image">
+          <img src="./img/logo.png" alt="Логотип CPS" />
+        </div>
+      </section>
+
+      <section class="services brands-section">
+        <h2 class="services__title brands-section__title"
+          >РЕМОНТ ТЕХНИКИ РАЗЛИЧНЫХ БРЕНДОВ</h2
+        >
+
+        <div class="services__brands-wrapper swiper">
+          <ul
+            class="services__brands-list swiper-wrapper services__brands-list--collapsed"
+          >
+            <li class="services__brands-item swiper-slide">
+              <a href="" class="services__brands-link">
+                <img
+                  src="./img/lenovo.png"
+                  alt="Lenovo"
+                  class="services__brands-logo"
+                />
+                <img
+                  src="./img/go.png"
+                  alt="Перейти"
+                  class="services__brands-arrow"
+                />
+              </a>
+            </li>
+            <li class="services__brands-item swiper-slide">
+              <a href="" class="services__brands-link">
+                <img
+                  src="./img/samsung.png"
+                  alt="Samsung"
+                  class="services__brands-logo"
+                />
+                <img
+                  src="./img/go.png"
+                  alt="Перейти"
+                  class="services__brands-arrow"
+                />
+              </a>
+            </li>
+            <li class="services__brands-item swiper-slide">
+              <a href="" class="services__brands-link">
+                <img
+                  src="./img/apple.png"
+                  alt="Apple"
+                  class="services__brands-logo"
+                />
+                <img
+                  src="./img/go.png"
+                  alt="Перейти"
+                  class="services__brands-arrow"
+                />
+              </a>
+            </li>
+            <li class="services__brands-item swiper-slide">
+              <a href="" class="services__brands-link">
+                <img
+                  src="./img/viewsonic.png"
+                  alt="ViewSonic"
+                  class="services__brands-logo"
+                />
+                <img
+                  src="./img/go.png"
+                  alt="Перейти"
+                  class="services__brands-arrow"
+                />
+              </a>
+            </li>
+            <li class="services__brands-item swiper-slide">
+              <a href="" class="services__brands-link">
+                <img
+                  src="./img/bosch.png"
+                  alt="Bosch"
+                  class
+                  class="services__brands-logo"
+                />
+                <img
+                  src="./img/go.png"
+                  alt="Перейти"
+                  class="services__brands-arrow"
+                />
+              </a>
+            </li>
+            <li class="services__brands-item swiper-slide">
+              <a href="" class="services__brands-link">
+                <img
+                  src="./img/hp.png"
+                  alt="HP"
+                  class="services__brands-logo"
+                />
+                <img
+                  src="./img/go.png"
+                  alt="Перейти"
+                  class="services__brands-arrow"
+                />
+              </a>
+            </li>
+            <li class="services__brands-item swiper-slide">
+              <a href="" class="services__brands-link">
+                <img
+                  src="./img/acer.png"
+                  alt="Acer"
+                  class="services__brands-logo"
+                />
+                <img
+                  src="./img/go.png"
+                  alt="Перейти"
+                  class="services__brands-arrow"
+                />
+              </a>
+            </li>
+            <li class="services__brands-item swiper-slide">
+              <a href="" class="services__brands-link">
+                <img
+                  src="./img/sony.png"
+                  alt="Sony"
+                  class="services__brands-logo"
+                />
+                <img
+                  src="./img/go.png"
+                  alt="Перейти"
+                  class="services__brands-arrow"
+                />
+              </a>
+            </li>
+            <li
+              class="services__brands-item swiper-slide services__brands-item--extra"
+            >
+              <a href="" class="services__brands-link">
+                <img
+                  src="./img/lenovo.png"
+                  alt="Lenovo"
+                  class="services__brands-logo"
+                />
+                <img
+                  src="./img/go.png"
+                  alt="Перейти"
+                  class="services__brands-arrow"
+                />
+              </a>
+            </li>
+            <li
+              class="services__brands-item swiper-slide services__brands-item--extra"
+            >
+              <a href="" class="services__brands-link">
+                <img
+                  src="./img/samsung.png"
+                  alt="Samsung"
+                  class="services__brands-logo"
+                />
+                <img
+                  src="./img/go.png"
+                  alt="Перейти"
+                  class="services__brands-arrow"
+                />
+              </a>
+            </li>
+            <li
+              class="services__brands-item swiper-slide services__brands-item--extra"
+            >
+              <a href="#" class="services__brands-link">
+                <img
+                  src="./img/apple.png"
+                  alt="Apple"
+                  class="services__brands-logo"
+                />
+                <img
+                  src="./img/go.png"
+                  alt="Перейти"
+                  class="services__brands-arrow"
+                />
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <button class="services__toggle-btn" type="button">
+          <img src="./img/expand.png" alt="" class="services__toggle-icon" />
+          <span class="services__toggle-text">Показать все</span>
+        </button>
+      </section>
+
+      <section class="repair-types-section">
+        <h2 class="section-title">РЕМОНТ РАЗЛИЧНЫХ ВИДОВ ТЕХНИКИ</h2>
+
+        <div class="cards-container">
+          <div class="card">
+            <span class="card-title">Ремонт ноутбуков</span>
+            <a href="#" class="go-button">
+              <img src="./img/go.png" alt="Перейти" />
+            </a>
+          </div>
+          <div class="card">
+            <span class="card-title">Ремонт планшетов</span>
+            <a href="#" class="go-button">
+              <img src="./img/go.png" alt="Перейти" />
+            </a>
+          </div>
+          <div class="card">
+            <span class="card-title">Ремонт ПК</span>
+            <a href="#" class="go-button">
+              <img src="./img/go.png" alt="Перейти" />
+            </a>
+          </div>
+          <div class="card">
+            <span class="card-title">Ремонт мониторов</span>
+            <a href="#" class="go-button">
+              <img src="./img/go.png" alt="Перейти" />
+            </a>
+          </div>
+        </div>
+
+        <div class="show-all">
+          <img
+            src="./img/expand.png"
+            alt="Показать все"
+            class="show-all__icon"
+          />
+          <a href="#">Показать все</a>
+        </div>
+      </section>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        const sidebarMenu = document.getElementById('sidebarMenu')
+        const openMenuBtn = document.getElementById('openMenuBtn')
+        const closeMenuBtn = document.getElementById('closeMenuBtn')
+        const mainContentWrapper = document.querySelector(
+          '.main-content-wrapper'
+        )
+
+        openMenuBtn.addEventListener('click', () => {
+          sidebarMenu.classList.add('sidebar-menu--open')
+          mainContentWrapper.classList.add('main-content-wrapper--shifted')
+        })
+
+        // Close sidebar on mobile
+        closeMenuBtn.addEventListener('click', () => {
+          sidebarMenu.classList.remove('sidebar-menu--open')
+          mainContentWrapper.classList.remove('main-content-wrapper--shifted')
+        })
+
+        // "Читать далее" логика полностью удалена
+        // const readMoreBtn = document.querySelector('.main-services__read-more');
+        // const mainServicesDescriptions = document.querySelectorAll('.main-services__description');
+        // let isMainServicesExpanded = false;
+
+        // Initially hide all but the first description
+        // mainServicesDescriptions.forEach((p, index) => {
+        //     if (index > 0) {
+        //         p.classList.add('hidden-description');
+        //     }
+        // });
+
+        // readMoreBtn.addEventListener('click', () => {
+        //     isMainServicesExpanded = !isMainServicesExpanded;
+        //     mainServicesDescriptions.forEach((p, index) => {
+        //         if (index > 0) {
+        //             p.classList.toggle('hidden-description', !isMainServicesExpanded);
+        //         }
+        //     });
+        //     readMoreBtn.querySelector('span').textContent = isMainServicesExpanded ? 'Скрыть' : 'Читать далее';
+        //     readMoreBtn.querySelector('img').style.transform = isMainServicesExpanded ? 'rotate(180deg)' : 'rotate(0deg)';
+        // });
+
+        // Brands section "Показать все" toggle
+        const brandsToggleBtn = document.querySelector('.services__toggle-btn')
+        const brandsToggleText = brandsToggleBtn.querySelector(
+          '.services__toggle-text'
+        )
+        const brandsList = document.querySelector('.services__brands-list')
+
+        brandsToggleBtn.addEventListener('click', () => {
+          brandsList.classList.toggle('services__brands-list--collapsed')
+          brandsToggleText.textContent = brandsList.classList.contains(
+            'services__brands-list--collapsed'
+          )
+            ? 'Показать все'
+            : 'Скрыть'
+          brandsToggleBtn.querySelector(
+            '.services__toggle-icon'
+          ).style.transform = brandsList.classList.contains(
+            'services__brands-list--collapsed'
+          )
+            ? 'rotate(0deg)'
+            : 'rotate(180deg)'
+        })
+
+        // Swiper initialization for mobile devices
+        let mySwiper // Declare a variable to hold the Swiper instance
+
+        function initSwiper() {
+          if (window.innerWidth < 768) {
+            if (!mySwiper) {
+              // Initialize Swiper only if it hasn't been initialized
+              mySwiper = new Swiper('.swiper', {
+                direction: 'horizontal',
+                loop: false,
+                slidesPerView: 'auto',
+                spaceBetween: 16
+              })
+            }
+          } else {
+            if (mySwiper) {
+              // Destroy Swiper if it exists anzd screen is wider
+              mySwiper.destroy(true, true)
+              mySwiper = undefined // Reset the variable
+            }
+          }
+        }
+        initSwiper()
+        window.addEventListener('resize', initSwiper)
+      })
+    </script>
   </body>
 </html>
