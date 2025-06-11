@@ -1,44 +1,130 @@
-/* Universal Box-Sizing */
+// Variables
+$font-primary: 'tt lakes', 'Arial', sans-serif; // Changed font here
+$color-primary: #333;
+$color-secondary: #666;
+$color-tertiary: #7e7e82;
+$color-accent: #1c69d4;
+$color-accent-hover: #0056b3;
+$color-success: #007bff;
+$color-danger: #ff3333;
+$color-danger-hover: #e62929;
+$color-text-dark: #2c3e50;
+$color-bg-light: #f8f8f8;
+$color-bg-white: #ffffff;
+$color-bg-gray: #f8f9fa;
+$color-border: #e3e3e3;
+$color-border-light: #f0f0f0;
+$color-border-dark: #ddd;
+$color-hover-bg: rgba(0, 0, 0, 0.02);
+$color-hover-light: rgba(0, 0, 0, 0.05);
+
+$border-radius: 20px;
+$border-radius-medium: 10px;
+$border-radius-small: 8px;
+$border-radius-tiny: 5px;
+
+$shadow-main: 0 6px 20px rgba(0, 0, 0, 0.1);
+$shadow-card: 0 2px 5px rgba(0, 0, 0, 0.05);
+$shadow-hover: 0 4px 10px rgba(0, 0, 0, 0.1);
+$shadow-text: 0 2px 4px rgba(0, 0, 0, 0.3);
+$shadow-button: 0 4px 8px rgba(255, 51, 51, 0.3);
+
+$transition-main: all 0.3s ease;
+$transition-transform: transform 0.3s ease-in-out;
+$transition-color: color 0.3s ease;
+
+$sidebar-width: 320px;
+
+// Mixins
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin flex-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+@mixin grid-layout($columns, $gap: 20px) {
+  display: grid;
+  grid-template-columns: $columns;
+  gap: $gap;
+}
+
+@mixin button-hover-effect($bg-color: rgba(0, 0, 0, 0.05)) {
+  transition: $transition-main;
+
+  &:hover {
+    background: $bg-color;
+    transform: scale(1.05);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
+@mixin card-hover {
+  transition: $transition-main;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: $shadow-hover;
+  }
+}
+
+@mixin text-uppercase {
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+// Base styles
 * {
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
+  // box-sizing: border-box;
 }
 
-/* Body and Global Layout */
 body {
-  font-family: 'Arial', sans-serif; /* Предполагаем Arial, но лучше использовать Google Fonts или свои */
+  font-family: $font-primary; // Applied font here
   line-height: 1.6;
-  color: #333;
-  background-color: #f8f8f8;
-  display: flex; /* Enables flexbox for side-by-side layout */
+  color: $color-primary;
+  background-color: $color-bg-light;
+  display: flex;
   min-height: 100vh;
 }
 
-/* Sidebar Menu Styles */
+// Sidebar Menu
 .sidebar-menu {
-  width: 320px;
-  background-color: #ffffff;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  width: $sidebar-width;
+  background-color: $color-bg-white;
+  box-shadow: $shadow-main;
   padding: 10px;
   display: flex;
   flex-direction: column;
   gap: 20px;
-  background-image: url('./img/back.jpg'); /* Убедитесь, что путь правильный */
-  background-size: cover;
-  background-position: center;
   flex-shrink: 0;
   z-index: 1000;
+  position: relative;
 
   .menu-header {
-    display: flex;
-    align-items: center;
+    @include flex-between;
     padding: 10px 0;
     border-bottom: 1px solid #eee;
 
     .icon {
       display: flex;
       align-items: center;
+
+      img {
+        width: 40px;
+        height: 40px;
+        cursor: pointer;
+        transition: filter 0.3s ease-in-out, opacity 0.3s ease-in-out;
+      }
     }
 
     img {
@@ -63,14 +149,7 @@ body {
       background: none;
       border: none;
       font-size: 28px;
-      color: #333;
-      cursor: pointer;
-      transition: filter 0.3s ease-in-out, opacity 0.3s ease-in-out;
-    }
-
-    .icon img {
-      width: 40px;
-      height: 40px;
+      color: $color-primary;
       cursor: pointer;
       transition: filter 0.3s ease-in-out, opacity 0.3s ease-in-out;
     }
@@ -85,9 +164,9 @@ body {
   .menu-item {
     font-size: 18px;
     text-decoration: none;
-    color: #333;
+    color: $color-primary;
     padding: 10px 15px;
-    border-radius: 8px;
+    border-radius: $border-radius-small;
     background-color: transparent;
     transition: background-color 0.3s, color 0.3s;
     position: relative;
@@ -98,7 +177,7 @@ body {
     }
 
     &.active {
-      color: #7e7e82;
+      color: $color-tertiary;
       font-weight: bold;
 
       &::before {
@@ -109,7 +188,7 @@ body {
         transform: translateY(-50%);
         width: 4px;
         height: 100%;
-        background-color: #1c69d4;
+        background-color: $color-accent;
         border-radius: 2px;
       }
     }
@@ -117,7 +196,7 @@ body {
 
   .contact-section {
     margin-top: auto;
-    border-top: 1px solid #ddd;
+    border-top: 1px solid $color-border-dark;
     padding-top: 15px;
     display: flex;
     flex-direction: column;
@@ -136,7 +215,7 @@ body {
       width: 40px;
       height: 40px;
       cursor: pointer;
-      transition: transform 0.3s ease-in-out;
+      transition: $transition-transform;
 
       &:hover {
         transform: scale(1.1);
@@ -146,7 +225,7 @@ body {
 
   .contact-info {
     font-size: 14px;
-    color: #333;
+    color: $color-primary;
     text-align: left;
     margin-left: 10px;
 
@@ -165,20 +244,20 @@ body {
   .language-selector {
     margin-top: 15px;
     font-size: 14px;
-    color: #333;
+    color: $color-primary;
     text-align: left;
     margin-left: 10px;
   }
 }
 
-/* Main Content Wrapper (area next to sidebar) */
+// Main Content Wrapper
 .main-content-wrapper {
   flex-grow: 1;
-  padding: 20px; /* Общий отступ для всего содержимого */
-  background-color: #f8f8f8;
+  // padding: 20px;
+  background-color: $color-bg-light;
   z-index: 1;
   position: relative;
-  transition: transform 0.3s ease-in-out;
+  transition: $transition-transform;
 
   .header {
     display: flex;
@@ -188,12 +267,10 @@ body {
     margin-bottom: 20px;
 
     &__top {
-      display: flex;
-      justify-content: space-between;
+      @include flex-between;
       width: 100%;
-      align-items: center;
       padding-bottom: 10px;
-      border-bottom: 1px solid #e3e3e3;
+      border-bottom: 1px solid $color-border;
     }
 
     &__left {
@@ -243,13 +320,13 @@ body {
       align-items: center;
       gap: 5px;
       font-size: 14px;
-      color: #333;
+      color: $color-primary;
       padding: 8px 12px;
       border-radius: 20px;
       transition: background-color 0.3s ease;
 
       &:hover {
-        background-color: rgba(0, 0, 0, 0.05);
+        background-color: $color-hover-light;
       }
 
       img {
@@ -262,111 +339,109 @@ body {
       width: 100%;
       margin-top: 10px;
       padding-bottom: 10px;
-      border-bottom: 1px solid #e3e3e3;
+      border-bottom: 1px solid $color-border;
       display: none;
-    }
 
-    &__top-nav-list {
-      list-style: none;
-      display: flex;
-      overflow-x: auto;
-      white-space: nowrap;
-      padding-bottom: 5px;
-      scrollbar-width: none;
-      -ms-overflow-style: none;
+      &-list {
+        list-style: none;
+        display: flex;
+        overflow-x: auto;
+        white-space: nowrap;
+        padding-bottom: 5px;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
 
-      &::-webkit-scrollbar {
-        display: none;
-      }
-    }
-
-    &__top-nav-item {
-      text-decoration: none;
-      color: #7e7e82;
-      font-size: 16px;
-      padding: 8px 12px;
-      border-radius: 5px;
-      background-color: transparent;
-      transition: background-color 0.3s, color 0.3s;
-      flex-shrink: 0;
-
-      &:hover {
-        background-color: #f0f0f0;
-        color: #333;
+        &::-webkit-scrollbar {
+          display: none;
+        }
       }
 
-      &--active {
-        background-color: #ffffff;
-        border: 1px solid #e3e3e3;
-        border-radius: 5px;
-        color: #333;
-        font-weight: bold;
+      &-item {
+        text-decoration: none;
+        color: $color-tertiary;
+        font-size: 16px;
+        padding: 8px 12px;
+        border-radius: $border-radius-tiny;
+        background-color: transparent;
+        transition: background-color 0.3s, color 0.3s;
+        flex-shrink: 0;
+
+        &:hover {
+          background-color: #f0f0f0;
+          color: $color-primary;
+        }
+
+        &--active {
+          background-color: $color-bg-white;
+          border: 1px solid $color-border;
+          color: $color-primary;
+          font-weight: bold;
+        }
       }
     }
   }
 
-  /* Main Services Section */
+  // Main Services Section
   .main-services-section {
     margin-top: 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    @include flex-between;
     gap: 20px;
     padding: 20px 0;
-    border-bottom: 1px solid #e3e3e3;
+    border-bottom: 1px solid $color-border;
     margin-bottom: 20px;
   }
 
-  .main-services__content {
-    flex: 1;
-    max-width: 500px;
-  }
-
-  .main-services__description {
-    margin-top: 15px;
-    color: #333;
-    font-size: 15px;
-  }
-
-  /* Кнопка "Читать далее" теперь стилизуется как обычная ссылка/кнопка */
-  .main-services__read-more {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    margin-top: 15px;
-    color: black;
-    cursor: pointer;
-    background: none;
-    border: none;
-    font-size: 16px;
-    text-decoration: none; /* Убираем подчеркивание у ссылки */
-    transition: color 0.3s ease;
-
-    &:hover {
-      color: #1c69d4;
+  .main-services {
+    &__content {
+      flex: 1;
+      max-width: 500px;
     }
 
-    img {
-      width: 16px;
-      height: 16px;
+    &__description {
+      margin-top: 15px;
+      color: $color-primary;
+      font-size: 15px;
+    }
+
+    &__read-more {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      margin-top: 15px;
+      color: black;
+      cursor: pointer;
+      background: none;
+      border: none;
+      font-size: 16px;
+      text-decoration: none;
+      transition: $transition-color;
+
+      &:hover {
+        color: $color-accent;
+      }
+
+      img {
+        width: 16px;
+        height: 16px;
+      }
+    }
+
+    &__image {
+      flex: 1;
+      display: flex;
+      justify-content: flex-end;
+
+      img {
+        width: 100%;
+        max-width: 400px;
+        height: auto;
+        border-radius: $border-radius-medium;
+        object-fit: cover;
+      }
     }
   }
 
-  .main-services__image {
-    flex: 1;
-    display: flex;
-    justify-content: flex-end;
-
-    img {
-      width: 100%;
-      max-width: 400px;
-      height: auto;
-      border-radius: 10px;
-      object-fit: cover;
-    }
-  }
-
-  /* Services Brands Section */
+  // Services Brands Section - UPDATED
   .brands-section {
     padding: 24px 0;
     background: none;
@@ -376,129 +451,151 @@ body {
 
     &__title {
       font-size: 14px;
-      color: #7e7e82;
+      color: $color-tertiary;
       margin-bottom: 20px;
-      text-transform: uppercase;
+      @include text-uppercase;
       padding-left: 0;
     }
   }
 
-  .services__brands-wrapper {
-    overflow-x: auto;
-  }
+  .services {
+    &__brands-wrapper {
+      overflow-x: auto;
+    }
 
-  .services__brands-list {
-    display: flex;
-    gap: 16px;
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    flex-wrap: nowrap;
-  }
+    &__brands-grid {
+      display: flex;
+      flex-wrap: nowrap;
+      gap: 16px;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
 
-  .services__brands-item {
-    flex: 0 0 auto;
-    min-width: 240px;
-  }
+      &::-webkit-scrollbar {
+        display: none;
+      }
 
-  .services__brands-link {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border: 1px solid #e3e3e3;
-    padding: 16px 24px;
-    height: 72px;
-    background: #fff;
-    transition: box-shadow 0.3s;
-    box-sizing: border-box;
-    text-decoration: none;
-    border-radius: 8px; /* Добавляем скругление для карточек брендов */
+      &--collapsed {
+        .services__brands-item--extra {
+          display: none;
+        }
+      }
+    }
 
-    &:hover {
-      box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+    &__brands-item {
+      flex: 0 0 240px;
+      min-width: 240px;
+
+      &--extra {
+        display: block;
+      }
+    }
+
+    &__brands-link {
+      @include flex-between;
+      border: 1px solid $color-border;
+      padding: 16px 24px;
+      height: 72px;
+      background: $color-bg-white;
+      transition: box-shadow 0.3s;
+      box-sizing: border-box;
+      text-decoration: none;
+      border-radius: $border-radius-small;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+
+      &:hover {
+        box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+      }
+    }
+
+    &__brands-logo {
+      max-height: 40px;
+      max-width: 100%;
+      object-fit: contain;
+    }
+
+    &__brands-arrow {
+      width: 24px;
+      height: 24px;
+      object-fit: contain;
+    }
+
+    &__toggle-btn {
+      display: flex;
+      margin-top: 16px;
+      font-size: 16px;
+      color: $color-accent;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      padding-left: 0;
+      text-align: left;
+      align-items: center;
+      gap: 8px;
+    }
+
+    &__toggle-icon {
+      width: 24px;
+      height: 24px;
+      object-fit: contain;
+      transition: $transition-transform;
     }
   }
 
-  .services__brands-logo {
-    max-height: 40px;
-    max-width: 100%;
-    object-fit: contain;
-  }
-
-  .services__brands-arrow {
-    width: 24px;
-    height: 24px;
-    object-fit: contain;
-  }
-
-  .services__toggle-btn {
-    display: none;
-    margin-top: 16px;
-    font-size: 16px;
-    color: #1c69d4;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    padding-left: 0;
-    text-align: left;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .services__toggle-icon {
-    width: 24px;
-    height: 24px;
-    object-fit: contain;
-    transition: transform 0.3s ease;
-  }
-
-  /* НОВЫЕ СТИЛИ ДЛЯ БЛОКА РЕМОНТА ТЕХНИКИ */
   .repair-types-section {
-    padding: 24px 0; /* Общий отступ для этой секции */
-    margin-bottom: 30px; /* Отступ снизу, если есть другие секции */
+    padding: 24px 0;
+    margin-bottom: 30px;
 
     .section-title {
       font-size: 14px;
-      color: #7e7e82;
+      color: $color-tertiary;
       margin-bottom: 20px;
-      text-transform: uppercase;
+      @include text-uppercase;
       font-weight: normal;
     }
   }
 
   .cards-container {
-    display: grid;
-    grid-template-columns: repeat(
-      auto-fit,
-      minmax(250px, 1fr)
-    ); /* Адаптивная сетка */
-    gap: 16px; /* Уменьшаем до 16px для соответствия другим секциям */
+    display: flex;
+    gap: 16px;
     margin-bottom: 30px;
+    overflow-x: auto;
+
+    &--horizontal {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+
+      .card {
+        flex: 0 0 250px;
+        min-width: 250px;
+      }
+    }
   }
 
   .card {
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    background-color: $color-bg-white;
+    border-radius: $border-radius-small;
+    box-shadow: $shadow-card;
     padding: 20px;
-    min-height: 180px; /* Увеличиваем минимальную высоту карточки */
+    min-height: 180px;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     position: relative;
-    transition: transform 0.2s ease;
-    border: 1px solid #e3e3e3; /* Добавляем тонкую рамку */
-
-    &:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Усиленная тень при наведении */
-    }
+    border: 1px solid $color-border;
+    @include card-hover;
   }
 
   .card-title {
     font-size: 18px;
-    color: #333;
+    color: $color-primary;
     position: absolute;
     top: 20px;
     left: 20px;
@@ -506,7 +603,6 @@ body {
     font-weight: 500;
   }
 
-  /* Стили для кнопки "Перейти" (теперь просто круглая кнопка с иконкой) */
   .go-button {
     background-color: transparent;
     color: transparent;
@@ -514,9 +610,7 @@ body {
     border-radius: 50%;
     width: 40px;
     height: 40px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    @include flex-center;
     padding: 0;
     gap: 0;
     position: absolute;
@@ -528,12 +622,7 @@ body {
 
     &:hover {
       transform: scale(1.1);
-      background-color: rgba(
-        255,
-        51,
-        51,
-        0.1
-      ); /* Легкий красный фон при наведении */
+      background-color: rgba(255, 51, 51, 0.1);
     }
 
     img {
@@ -547,47 +636,199 @@ body {
     }
   }
 
-  /* Стили для "Показать все" */
   .show-all {
     display: flex;
     align-items: center;
-    color: #666;
+    color: $color-secondary;
     font-size: 16px;
     cursor: pointer;
-    text-decoration: none; /* Убираем стандартное подчеркивание у ссылки */
+    text-decoration: none;
 
     &__icon {
       width: 24px;
       height: 24px;
       margin-right: 8px;
-      transition: transform 0.3s ease;
+      transition: $transition-transform;
     }
 
     a {
-      color: #666;
+      color: $color-secondary;
       text-decoration: none;
-      border-bottom: 1px dotted #666;
+      border-bottom: 1px dotted $color-secondary;
       transition: color 0.2s ease, border-color 0.2s ease;
     }
 
-    &:hover .show-all__icon {
-      transform: rotate(180deg);
-    }
+    &:hover {
+      .show-all__icon {
+        transform: rotate(180deg);
+      }
 
-    a:hover {
-      color: #ff3333;
-      border-color: #ff3333;
+      a {
+        color: $color-danger;
+        border-color: $color-danger;
+      }
     }
   }
 }
 
-/* Media Queries */
+.pricing-section {
+  padding: 40%;
+  margin-bottom: 30%;
 
-/* Mobile First - Default styles */
+  .section-title {
+    font-size: 14px;
+    color: $color-tertiary;
+    margin-bottom: 20px;
+    @include text-uppercase;
+    font-weight: normal;
+  }
+
+  .pricing-container {
+    background: $color-bg-white;
+    border-radius: $border-radius-small;
+    overflow: hidden;
+    box-shadow: $shadow-card;
+    border: 1px solid $color-border;
+  }
+
+  .pricing-header {
+    @include grid-layout(2fr 1fr 1fr 150px);
+    padding: 20px;
+    background: $color-bg-gray;
+    border-bottom: 1px solid $color-border;
+    font-weight: 600;
+    color: $color-secondary;
+    @include text-uppercase;
+    font-size: 0.9rem;
+  }
+
+  .pricing-item {
+    @include grid-layout(2fr 1fr 1fr 150px);
+    align-items: center;
+    padding: 20px;
+    border-bottom: 1px solid $color-border-light;
+    transition: $transition-main;
+
+    &:hover {
+      background: $color-hover-bg;
+    }
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    .service-name {
+      font-size: 1rem;
+      color: $color-primary;
+      font-weight: 500;
+      line-height: 1.4;
+    }
+
+    .service-price {
+      font-size: 1rem;
+      font-weight: 600;
+      color: $color-text-dark;
+    }
+
+    .service-time {
+      font-size: 0.9rem;
+      color: $color-secondary;
+    }
+
+    .service-action {
+      .order-btn {
+        background: transparent;
+        border: none;
+        padding: 12px;
+        cursor: pointer;
+        transition: $transition-main;
+        border-radius: 50%;
+        @include flex-center;
+
+        &:hover {
+          background: rgba(255, 51, 51, 0.1);
+          transform: scale(1.1);
+        }
+
+        &:active {
+          transform: scale(0.95);
+        }
+
+        .order-icon {
+          width: 56px;
+          height: 56px;
+          object-fit: contain;
+        }
+      }
+    }
+  }
+
+  .pricing-info {
+    padding: 20px;
+    background: $color-bg-gray;
+    color: $color-secondary;
+    font-size: 0.9rem;
+    line-height: 1.6;
+
+    .commercial-offer {
+      color: $color-success;
+      text-decoration: none;
+      font-weight: 500;
+      transition: $transition-color;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+
+      &:hover {
+        color: $color-accent-hover;
+        text-decoration: underline;
+      }
+
+      .offer-arrow {
+        width: 16px;
+        height: 16px;
+      }
+    }
+  }
+}
+
+// Footer
+.footer {
+  margin-top: 40px;
+  padding: 30px 0;
+  border-top: 1px solid $color-border;
+  background: $color-bg-white;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  font-size: 0.85rem;
+  color: $color-secondary;
+
+  .footer-left,
+  .footer-center,
+  .footer-right {
+    flex: 1;
+
+    p {
+      margin-bottom: 5px;
+      line-height: 1.4;
+    }
+  }
+
+  .footer-center {
+    text-align: center;
+  }
+
+  .footer-right {
+    text-align: right;
+  }
+}
+
+// Mobile Styles
 @media (max-width: 767px) {
   .sidebar-menu {
     position: fixed;
-    left: -320px;
+    left: -$sidebar-width;
     top: 0;
     height: 100%;
     transition: left 0.3s ease-in-out;
@@ -603,10 +844,10 @@ body {
 
   .main-content-wrapper {
     transform: translateX(0);
-    transition: transform 0.3s ease-in-out;
+    transition: $transition-transform;
 
     &--shifted {
-      transform: translateX(320px);
+      transform: translateX($sidebar-width);
     }
 
     .header {
@@ -644,27 +885,29 @@ body {
     }
 
     .services__brands-wrapper {
-      overflow-x: hidden; /* Важно для Swiper на мобильных */
+      overflow-x: auto;
     }
 
-    .swiper-wrapper {
-      flex-wrap: nowrap; /* Swiper управляет этим */
-    }
+    .services__brands-grid {
+      display: flex;
+      flex-wrap: nowrap;
+      overflow-x: auto;
 
-    .swiper-slide {
-      width: auto; /* Swiper управляет этим */
+      &--collapsed {
+        .services__brands-item--extra {
+          display: none;
+        }
+      }
     }
 
     .services__brands-item {
-      margin-right: 16px; /* Отступ между слайдами */
+      margin-right: 16px;
+      flex: 0 0 auto;
+      min-width: 240px;
     }
 
     .services__toggle-btn {
-      display: none; /* Скрыть на мобильных, так как Swiper прокручивается */
-    }
-
-    .swiper {
-      overflow: visible; /* Чтобы пагинация Swiper была видна */
+      display: none;
     }
 
     .main-services-section {
@@ -686,26 +929,34 @@ body {
       }
     }
 
-    /* Адаптивность для нового блока на мобильных */
     .cards-container {
-      grid-template-columns: 1fr; /* Одна колонка на очень маленьких экранах */
-      gap: 10px; /* Уменьшаем отступы на мобильных */
+      display: flex;
+      overflow-x: auto;
+      gap: 10px;
+
+      &--horizontal {
+        flex-wrap: nowrap; // Возвращаем прокрутку для мобильных
+
+        .card {
+          flex: 0 0 200px;
+          min-width: 200px;
+        }
+      }
     }
 
     .card {
-      min-height: 150px; /* Увеличиваем минимальную высоту карточки на мобильных */
+      min-height: 150px;
       padding: 15px;
     }
 
     .card-title {
       top: 15px;
       left: 15px;
-      font-size: 16px; /* Немного уменьшаем размер заголовка на мобильных */
+      font-size: 16px;
     }
 
-    /* Адаптивные настройки для кнопки "Перейти" */
     .go-button {
-      width: 36px; /* Меньший размер на мобильных */
+      width: 36px;
       height: 36px;
       bottom: 15px;
       right: 15px;
@@ -719,15 +970,79 @@ body {
         height: 20px;
       }
     }
+
+    // Mobile pricing styles
+    .pricing-header {
+      display: none;
+    }
+
+    .pricing-item {
+      grid-template-columns: 1fr;
+      gap: 10px;
+      text-align: left;
+      padding: 20px;
+      border: 1px solid #e0e0e0;
+      border-radius: $border-radius-small;
+      margin-bottom: 15px;
+      background: $color-bg-white;
+
+      .service-name {
+        margin-bottom: 10px;
+        font-weight: 600;
+      }
+
+      .service-price {
+        margin-bottom: 5px;
+
+        &:before {
+          content: 'Цена: ';
+          color: $color-secondary;
+          font-weight: normal;
+        }
+      }
+
+      .service-time {
+        margin-bottom: 15px;
+
+        &:before {
+          content: 'Срок: ';
+          color: $color-secondary;
+          font-weight: normal;
+        }
+      }
+
+      .service-action .order-btn {
+        width: 100%;
+        padding: 15px;
+        border-radius: $border-radius-small;
+
+        .order-icon {
+          width: 32px; // Увеличено для мобильных устройств
+          height: 32px; // Увеличено для мобильных устройств
+        }
+      }
+    }
+  }
+
+  .footer {
+    flex-direction: column;
+    gap: 20px;
+    text-align: center;
+
+    .footer-center,
+    .footer-right {
+      text-align: center;
+    }
   }
 }
 
+// Desktop Styles - UPDATED
 @media (min-width: 768px) {
   .sidebar-menu {
     position: relative;
     left: 0;
     box-shadow: none;
-    border-right: 1px solid #e3e3e3;
+    border-right: 1px solid $color-border;
 
     .menu-header .close {
       display: none;
@@ -767,41 +1082,76 @@ body {
       overflow-x: hidden;
     }
 
-    .services__brands-list {
+    .services__brands-grid {
+      display: flex;
       flex-wrap: wrap;
+      gap: 16px;
       justify-content: flex-start;
+
+      &--collapsed {
+        .services__brands-item--extra {
+          display: none;
+        }
+      }
     }
 
     .services__brands-item {
-      flex: 0 0 calc(33.333% - 11px); /* 3 колонки с учетом gap */
-    }
+      flex: 1 1 calc(50% - 8px);
+      min-width: 240px;
+      max-width: calc(50% - 8px);
+      margin-right: 0;
 
-    .services__brands-list--collapsed .services__brands-item--extra {
-      display: none;
+      &:nth-child(odd) {
+        margin-right: 8px;
+      }
+
+      &:nth-child(even) {
+        margin-left: 8px;
+      }
     }
 
     .services__toggle-btn {
       display: flex;
     }
 
-    padding-left: 20px;
-
-    /* Адаптивность для нового блока на десктопе */
     .cards-container {
-      grid-template-columns: repeat(2, 1fr); /* 2 колонки на средних экранах */
+      display: flex;
+      justify-content: flex-start;
+      overflow-x: visible; // Убираем прокрутку для десктопа
+
+      &--horizontal {
+        flex-wrap: wrap; // Позволяем перенос карточек на новую строку
+
+        .card {
+          flex: 0 0 250px;
+          min-width: 250px;
+          margin-bottom: 16px; // Добавляем отступ снизу для переносимых карточек
+        }
+      }
     }
   }
 }
 
-/* Desktop adjustments */
 @media (min-width: 1120px) {
   .main-content-wrapper {
     padding-left: 20px;
-    max-width: calc(1120px - 320px); /* Adjust max-width based on sidebar */
-    margin: 0 auto; /* Center content within max-width */
+    max-width: calc(1120px - #{$sidebar-width});
+    margin: 0 auto;
+
+    .services__brands-grid {
+      gap: 16px;
+    }
 
     .services__brands-item {
-      flex: 0 0 calc(25% - 12px); /* 4 колонки с учетом gap */
+      flex: 1 1 calc(50% - 8px);
+
+      &:nth-child(odd) {
+        margin-right: 8px;
+      }
+
+      &:nth-child(even) {
+        margin-left: 8px;
+      }
     }
   }
 }
