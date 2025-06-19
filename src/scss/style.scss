@@ -1,3 +1,26 @@
+@font-face {
+  font-family: 'TT Lakes';
+  src: url('../fonts/TTLakes/TTLakes-Regular.woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'TT Lakes Medium';
+  src: url('../fonts/TTLakes/TTLakes-Medium.woff') format('woff');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'TT Lakes Bold';
+  src: url('../fonts/TTLakes/TTLakes-Bold.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
 // Variables
 $font-primary: 'tt lakes', 'Arial', sans-serif; // Changed font here
 $color-primary: #333;
@@ -61,8 +84,7 @@ $sidebar-width: 320px;
     background: $bg-color;
     transform: scale(1.05);
   }
-
-  &:active {
+  a &:active {
     transform: scale(0.95);
   }
 }
@@ -81,15 +103,15 @@ $sidebar-width: 320px;
   letter-spacing: 0.5px;
 }
 
-// Base styles
+// Base стили
 * {
   margin: 0;
   padding: 0;
-  // box-sizing: border-box;
+  // box-sizing: border-box; // Если раскомментировать, может повлиять на отступы и размеры
 }
 
 body {
-  font-family: $font-primary; // Applied font here
+  font-family: $font-primary;
   line-height: 1.6;
   color: $color-primary;
   background-color: $color-bg-light;
@@ -253,7 +275,7 @@ body {
 // Main Content Wrapper
 .main-content-wrapper {
   flex-grow: 1;
-  // padding: 20px;
+  // padding: 20px; // Учитывайте, что padding может быть добавлен в медиазапросах
   background-color: $color-bg-light;
   z-index: 1;
   position: relative;
@@ -304,12 +326,11 @@ body {
       font-size: 28px;
       font-weight: bold;
       margin-bottom: 10px;
-      display: none;
+      display: none; // Скрываем на мобильных по умолчанию
     }
 
     &__actions {
       display: flex;
-      gap: 15px;
     }
 
     &__button {
@@ -340,7 +361,7 @@ body {
       margin-top: 10px;
       padding-bottom: 10px;
       border-bottom: 1px solid $color-border;
-      display: none;
+      display: none; // Скрываем на мобильных по умолчанию
 
       &-list {
         list-style: none;
@@ -433,7 +454,7 @@ body {
 
       img {
         width: 100%;
-        max-width: 400px;
+        max-width: 500px; // Увеличиваем размер логотипа
         height: auto;
         border-radius: $border-radius-medium;
         object-fit: cover;
@@ -441,7 +462,7 @@ body {
     }
   }
 
-  // Services Brands Section - UPDATED
+  // Services Brands Section - ОБНОВЛЕННЫЙ КОД
   .brands-section {
     padding: 24px 0;
     background: none;
@@ -460,38 +481,32 @@ body {
 
   .services {
     &__brands-wrapper {
-      overflow-x: auto;
+      overflow-x: visible;
     }
 
     &__brands-grid {
-      display: flex;
-      flex-wrap: nowrap;
+      display: grid; // По умолчанию на десктопах - грид
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
       gap: 16px;
       list-style: none;
       padding: 0;
       margin: 0;
-      overflow-x: auto;
-      scrollbar-width: none;
-      -ms-overflow-style: none;
 
-      &::-webkit-scrollbar {
+      // По умолчанию скрываем элементы с классом --extra
+      .services__brands-item--extra {
         display: none;
       }
 
-      &--collapsed {
+      // Этот класс добавляется JavaScript, чтобы показать все скрытые элементы
+      &.services__brands-grid--expanded {
         .services__brands-item--extra {
-          display: none;
+          display: block; // Показываем все элементы, когда грид расширен
         }
       }
     }
 
     &__brands-item {
-      flex: 0 0 240px;
-      min-width: 240px;
-
-      &--extra {
-        display: block;
-      }
+      width: 100%;
     }
 
     &__brands-link {
@@ -548,6 +563,7 @@ body {
     }
   }
 
+  // Repair Types Section
   .repair-types-section {
     padding: 24px 0;
     margin-bottom: 30px;
@@ -562,20 +578,26 @@ body {
   }
 
   .cards-container {
+    // Блоки всегда в ряд с горизонтальной прокруткой
     display: flex;
+    flex-wrap: nowrap; // Предотвращаем перенос на следующую строку
+    overflow-x: auto; // Включаем горизонтальную прокрутку
     gap: 16px;
     margin-bottom: 30px;
-    overflow-x: auto;
+    scrollbar-width: none; // Скрываем скроллбар для Firefox
+    -ms-overflow-style: none; // Скрываем скроллбар для IE/Edge
 
-    &--horizontal {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: flex-start;
+    &::-webkit-scrollbar {
+      display: none; // Скрываем скроллбар для Chrome/Safari
+    }
 
-      .card {
-        flex: 0 0 250px;
-        min-width: 250px;
-      }
+    .card {
+      flex: 0 0 250px; // Каждая карточка имеет фиксированную ширину, не сжимается
+      min-width: 250px; // Обеспечиваем минимальную ширину
+      // Если понадобится скрывать дополнительные карточки, раскомментируйте:
+      // &.card--extra {
+      //   display: none;
+      // }
     }
   }
 
@@ -608,8 +630,8 @@ body {
     color: transparent;
     border: none;
     border-radius: 50%;
-    width: 40px;
-    height: 40px;
+    width: 60px;
+    height: 60px;
     @include flex-center;
     padding: 0;
     gap: 0;
@@ -625,6 +647,10 @@ body {
       background-color: rgba(255, 51, 51, 0.1);
     }
 
+    &:active {
+      transform: scale(0.95);
+    }
+
     img {
       width: 100%;
       height: 100%;
@@ -637,6 +663,7 @@ body {
   }
 
   .show-all {
+    // Эта кнопка всегда видна
     display: flex;
     align-items: center;
     color: $color-secondary;
@@ -671,9 +698,10 @@ body {
   }
 }
 
+// Pricing Section
 .pricing-section {
-  padding: 40%;
-  margin-bottom: 30%;
+  padding: 24px 0;
+  margin-bottom: 30px;
 
   .section-title {
     font-size: 14px;
@@ -755,8 +783,8 @@ body {
         }
 
         .order-icon {
-          width: 56px;
-          height: 56px;
+          width: 40px;
+          height: 40px;
           object-fit: contain;
         }
       }
@@ -838,7 +866,7 @@ body {
     }
 
     .menu-header .close {
-      display: block;
+      display: block; // Показываем кнопку закрытия на мобильных
     }
   }
 
@@ -857,7 +885,7 @@ body {
       }
 
       &__actions {
-        display: none;
+        display: none; // Скрываем кнопки "Оставить заявку" и "Статус ремонта" на мобильных
       }
 
       &__button {
@@ -876,38 +904,56 @@ body {
       }
 
       &__title-desktop {
-        display: none;
+        display: none; // Скрываем заголовок десктопа на мобильных
       }
 
       &__top-nav {
-        display: none;
+        display: none; // Скрываем навигацию заголовка на мобильных
       }
     }
 
+    // Mobile brands with horizontal scroll
     .services__brands-wrapper {
-      overflow-x: auto;
+      overflow-x: auto; // Горизонтальная прокрутка для брендов
     }
 
     .services__brands-grid {
-      display: flex;
-      flex-wrap: nowrap;
+      display: flex; // Важно: используем flex для горизонтального скролла
+      flex-wrap: nowrap; // Элементы в одну строку
+      grid-template-columns: none; // Отключаем грид для мобильных
       overflow-x: auto;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
 
-      &--collapsed {
+      &::-webkit-scrollbar {
+        display: none;
+      }
+
+      // На мобильных скрываем "extra" элементы по умолчанию
+      .services__brands-item--extra {
+        display: none;
+      }
+
+      // На мобильных показываем "extra" элементы, когда грид расширен
+      &.services__brands-grid--expanded {
+        flex-wrap: wrap; // Позволяет элементам переноситься на новую строку
+        overflow-x: visible; // Отключаем горизонтальную прокрутку, если все элементы видны
+        justify-content: flex-start; // Выравниваем элементы
         .services__brands-item--extra {
-          display: none;
+          display: block; // Показываем все элементы
         }
       }
     }
 
     .services__brands-item {
-      margin-right: 16px;
+      margin-right: 16px; // Отступ между элементами при горизонтальной прокрутке
       flex: 0 0 auto;
       min-width: 240px;
+      width: 240px; // Фиксированная ширина для свайпера
     }
 
     .services__toggle-btn {
-      display: none;
+      display: flex; // Кнопка "Показать все" всегда видна на мобильных
     }
 
     .main-services-section {
@@ -925,22 +971,24 @@ body {
       margin-top: 20px;
 
       img {
-        max-width: 300px;
+        max-width: 350px; // Увеличиваем размер логотипа для мобильной версии
       }
     }
 
     .cards-container {
+      // Мобильная версия уже использует flex с горизонтальной прокруткой, без изменений
       display: flex;
       overflow-x: auto;
       gap: 10px;
+      grid-template-columns: none;
 
-      &--horizontal {
-        flex-wrap: nowrap; // Возвращаем прокрутку для мобильных
-
-        .card {
-          flex: 0 0 200px;
-          min-width: 200px;
-        }
+      .card {
+        flex: 0 0 200px;
+        min-width: 200px;
+        // Если понадобится скрывать дополнительные карточки, раскомментируйте:
+        // &.card--extra {
+        //   display: none;
+        // }
       }
     }
 
@@ -963,6 +1011,7 @@ body {
     }
 
     .show-all {
+      display: flex; // Кнопка всегда видна на мобильных
       font-size: 14px;
 
       &__icon {
@@ -973,7 +1022,7 @@ body {
 
     // Mobile pricing styles
     .pricing-header {
-      display: none;
+      display: none; // Скрываем шапку таблицы на мобильных
     }
 
     .pricing-item {
@@ -1017,8 +1066,8 @@ body {
         border-radius: $border-radius-small;
 
         .order-icon {
-          width: 32px; // Увеличено для мобильных устройств
-          height: 32px; // Увеличено для мобильных устройств
+          width: 24px;
+          height: 24px;
         }
       }
     }
@@ -1029,6 +1078,7 @@ body {
     gap: 20px;
     text-align: center;
 
+    .footer-left,
     .footer-center,
     .footer-right {
       text-align: center;
@@ -1036,7 +1086,6 @@ body {
   }
 }
 
-// Desktop Styles - UPDATED
 @media (min-width: 768px) {
   .sidebar-menu {
     position: relative;
@@ -1045,112 +1094,135 @@ body {
     border-right: 1px solid $color-border;
 
     .menu-header .close {
-      display: none;
+      display: none; // Скрываем кнопку закрытия на десктопах
     }
   }
 
   .main-content-wrapper {
     .header {
       &__burger-btn {
-        display: none;
+        display: none; // Скрываем бургер-кнопку на десктопах
       }
 
       &__title-mobile {
-        display: none;
+        display: none; // Скрываем мобильный заголовок на десктопах
       }
 
       &__title-desktop {
-        display: block;
+        display: block; // Показываем десктопный заголовок
         margin-left: 0;
         padding-left: 0;
       }
 
       &__actions {
-        display: flex;
+        display: flex; // Показываем кнопки действий
       }
 
       &__button span {
-        display: inline;
+        display: inline; // Показываем текст в кнопках действий
       }
 
       &__top-nav {
-        display: block;
+        display: block; // Показываем верхнюю навигацию
       }
     }
 
+    // Desktop Brands section (adjusting for "show all" functionality)
     .services__brands-wrapper {
-      overflow-x: hidden;
+      overflow-x: visible; // Без горизонтальной прокрутки
     }
 
     .services__brands-grid {
-      display: flex;
-      flex-wrap: wrap;
+      display: grid; // Используем грид для десктопов
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
       gap: 16px;
       justify-content: flex-start;
+      overflow-x: visible;
 
-      &--collapsed {
+      // По умолчанию скрываем "extra" элементы на десктопе
+      .services__brands-item--extra {
+        display: none;
+      }
+
+      // Этот класс будет добавлен JavaScript для показа всех элементов
+      &.services__brands-grid--expanded {
         .services__brands-item--extra {
-          display: none;
+          display: block; // Показываем все скрытые элементы
         }
       }
     }
 
     .services__brands-item {
-      flex: 1 1 calc(50% - 8px);
-      min-width: 240px;
-      max-width: calc(50% - 8px);
+      width: 100%;
       margin-right: 0;
 
       &:nth-child(odd) {
-        margin-right: 8px;
+        margin-right: 0;
       }
 
       &:nth-child(even) {
-        margin-left: 8px;
+        margin-left: 0;
       }
     }
 
     .services__toggle-btn {
-      display: flex;
+      display: flex; // Кнопка "Показать все" всегда видна на десктопе
     }
 
     .cards-container {
+      // Для десктопа сохраняем горизонтальную прокрутку
       display: flex;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      gap: 16px;
       justify-content: flex-start;
-      overflow-x: visible; // Убираем прокрутку для десктопа
+      scrollbar-width: none;
+      -ms-overflow-style: none;
 
-      &--horizontal {
-        flex-wrap: wrap; // Позволяем перенос карточек на новую строку
-
-        .card {
-          flex: 0 0 250px;
-          min-width: 250px;
-          margin-bottom: 16px; // Добавляем отступ снизу для переносимых карточек
-        }
+      &::-webkit-scrollbar {
+        display: none;
       }
+
+      .card {
+        flex: 0 0 250px; // Каждая карточка имеет фиксированную ширину, не сжимается
+        min-width: 250px; // Обеспечиваем минимальную ширину
+        // Если понадобится скрывать дополнительные карточки, раскомментируйте:
+        // &.card--extra {
+        //   display: none;
+        // }
+      }
+    }
+
+    .show-all {
+      display: flex; // Кнопка "Показать все" всегда видна на десктопе для видов ремонта
     }
   }
 }
 
 @media (min-width: 1120px) {
   .main-content-wrapper {
-    padding-left: 20px;
-    max-width: calc(1120px - #{$sidebar-width});
-    margin: 0 auto;
+    padding-left: 30px;
+    max-width: calc(1350px - #{$sidebar-width});
+    margin: 0%;
+
+    .services__brands-wrapper {
+      overflow-x: visible;
+    }
 
     .services__brands-grid {
       gap: 16px;
-    }
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
 
-    .services__brands-item {
-      flex: 1 1 calc(50% - 8px);
-
-      &:nth-child(odd) {
-        margin-right: 8px;
+      // На больших десктопах скрываем "extra" элементы по умолчанию
+      .services__brands-item--extra {
+        display: none;
       }
 
-      &:nth-child(even) {
-        margin-left: 8px;
+      &.services__brands-grid--expanded {
+        .services__brands-item--extra {
+          display: block; // Показываем все элементы при расширении
+        }
       }
     }
   }
