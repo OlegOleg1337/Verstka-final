@@ -1,3 +1,4 @@
+import '../scss/style.scss'
 document.addEventListener('DOMContentLoaded', function () {
   // Sidebar functionality
   const sidebarMenu = document.getElementById('sidebarMenu')
