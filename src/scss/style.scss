@@ -1,28 +1,5 @@
-@font-face {
-  font-family: 'TT Lakes';
-  src: url('../fonts/TTLakes/TTLakes-Regular.woff');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'TT Lakes Medium';
-  src: url('../fonts/TTLakes/TTLakes-Medium.woff') format('woff');
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'TT Lakes Bold';
-  src: url('../fonts/TTLakes/TTLakes-Bold.woff') format('woff');
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
 // Variables
-$font-primary: 'tt lakes', 'Arial', sans-serif; // Changed font here
+$font-primary: 'TT Lakes', 'Arial', sans-serif;
 $color-primary: #333;
 $color-secondary: #666;
 $color-tertiary: #7e7e82;
@@ -57,6 +34,10 @@ $transition-transform: transform 0.3s ease-in-out;
 $transition-color: color 0.3s ease;
 
 $sidebar-width: 320px;
+$mobile-breakpoint: 767px;
+$tablet-breakpoint: 768px;
+$desktop-breakpoint: 1120px;
+$large-desktop-breakpoint: 1440px;
 
 // Mixins
 @mixin flex-center {
@@ -103,11 +84,15 @@ $sidebar-width: 320px;
   letter-spacing: 0.5px;
 }
 
-// Base стили
+// Base styles
 * {
   margin: 0;
   padding: 0;
-  // box-sizing: border-box; // Если раскомментировать, может повлиять на отступы и размеры
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
 }
 
 body {
@@ -117,632 +102,848 @@ body {
   background-color: $color-bg-light;
   display: flex;
   min-height: 100vh;
+  overflow-x: hidden;
+
+  @media (min-width: $tablet-breakpoint) {
+    overflow-x: auto;
+    overflow-y: auto;
+  }
+
+  &.no-scroll {
+    overflow: hidden;
+  }
 }
 
-// Sidebar Menu
 .sidebar-menu {
+  position: fixed;
+  top: 0;
+  left: -100%;
   width: $sidebar-width;
-  background-color: $color-bg-white;
+  height: 100%;
+  background: $color-bg-white;
   box-shadow: $shadow-main;
-  padding: 10px;
+  transition: left 0.3s ease-in-out;
+  z-index: 1000;
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  flex-shrink: 0;
-  z-index: 1000;
-  position: relative;
+
+  &--open {
+    left: 0;
+  }
+
+  @media (min-width: $tablet-breakpoint) {
+    position: static; // Не фиксирован на десктопе
+    width: auto; // Ширина по содержимому
+    box-shadow: none;
+    transition: none;
+    display: flex;
+    flex-direction: column;
+    padding-right: 1.5rem; // Отступ справа от основного контента
+    min-width: $sidebar-width; // Минимальная ширина для десктопа
+  }
 
   .menu-header {
     @include flex-between;
-    padding: 10px 0;
-    border-bottom: 1px solid #eee;
-
-    .icon {
-      display: flex;
-      align-items: center;
-
-      img {
-        width: 40px;
-        height: 40px;
-        cursor: pointer;
-        transition: filter 0.3s ease-in-out, opacity 0.3s ease-in-out;
-      }
-    }
-
-    img {
-      height: 50px;
-    }
+    padding: 1rem;
+    border-bottom: 1px solid $color-border;
 
     .close {
-      margin-right: 15px;
-    }
-
-    .search {
-      margin-left: 15px;
-    }
-
-    .logo {
-      flex-grow: 1;
-      text-align: left;
-      margin-left: 10px;
-    }
-
-    button {
       background: none;
       border: none;
-      font-size: 28px;
-      color: $color-primary;
       cursor: pointer;
-      transition: filter 0.3s ease-in-out, opacity 0.3s ease-in-out;
+      padding: 0.5rem;
+      &:active {
+        transform: scale(0.95);
+      }
+    }
+    .logo {
+      margin-right: auto;
+      margin-left: 1rem;
+    }
+    .search {
+      padding: 0.5rem;
+      cursor: pointer;
+      @include button-hover-effect;
+      border-radius: 50%;
+    }
+
+    @media (min-width: $tablet-breakpoint) {
+      display: none;
     }
   }
 
   .menu-items {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-  }
+    padding: 1.5rem 0;
+    flex-grow: 1;
 
-  .menu-item {
-    font-size: 18px;
-    text-decoration: none;
-    color: $color-primary;
-    padding: 10px 15px;
-    border-radius: $border-radius-small;
-    background-color: transparent;
-    transition: background-color 0.3s, color 0.3s;
-    position: relative;
+    .menu-item {
+      display: block;
+      padding: 0.5rem 1rem;
+      color: $color-secondary;
+      text-decoration: none;
+      font-size: 1rem;
+      transition: $transition-main;
+      margin-left: 1.5rem; // Для отступа текста
+      position: relative; // Для активной линии
 
-    &:hover {
-      background-color: #e0e0e0;
-      color: #000;
-    }
+      &:hover {
+        color: $color-primary;
+      }
 
-    &.active {
-      color: $color-tertiary;
-      font-weight: bold;
+      &.active {
+        color: $color-tertiary;
+        font-family: 'TT Lakes Medium'; // Более жирный шрифт
+        &:before {
+          content: '';
+          position: absolute;
+          left: 0;
+          top: 50%;
+          transform: translateY(-50%);
+          width: 4px;
+          height: 32px;
+          background-color: $color-accent;
+          border-top-right-radius: $border-radius-tiny;
+          border-bottom-right-radius: $border-radius-tiny;
+        }
+      }
 
-      &::before {
-        content: '';
-        position: absolute;
-        left: 0;
-        top: 50%;
-        transform: translateY(-50%);
-        width: 4px;
-        height: 100%;
-        background-color: $color-accent;
-        border-radius: 2px;
+      @media (min-width: $tablet-breakpoint) {
+        margin-left: 0;
+        padding-left: 1rem;
       }
     }
   }
 
   .contact-section {
-    margin-top: auto;
-    border-top: 1px solid $color-border-dark;
-    padding-top: 15px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
-  }
+    padding: 1rem;
+    border-top: 1px solid $color-border;
 
-  .social-links {
-    display: flex;
-    gap: 20px;
-    justify-content: flex-start;
-    width: 100%;
-    padding-left: 10px;
-
-    img {
-      width: 40px;
-      height: 40px;
-      cursor: pointer;
-      transition: $transition-transform;
-
-      &:hover {
-        transform: scale(1.1);
+    .social-links {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+      img {
+        padding: 0.5rem;
+        cursor: pointer;
+        @include button-hover-effect;
+        border-radius: 50%;
       }
     }
-  }
 
-  .contact-info {
-    font-size: 14px;
-    color: $color-primary;
-    text-align: left;
-    margin-left: 10px;
-
-    span {
-      display: block;
-      margin-bottom: 5px;
+    .contact-info {
+      span {
+        display: block;
+        color: $color-secondary;
+        margin-bottom: 0.5rem;
+      }
+      h1 {
+        font-family: 'TT Lakes Bold';
+        font-size: 1.5rem;
+        color: $color-primary;
+        margin-bottom: 1rem;
+      }
     }
 
-    h1 {
-      font-weight: bold;
-      font-size: 20px;
-      margin: 0;
+    .language-selector {
+      display: flex;
+      gap: 0.5rem;
+      span {
+        cursor: pointer;
+        color: $color-secondary;
+        font-size: 1rem;
+        &:hover {
+          color: $color-primary;
+        }
+        &:nth-child(1) {
+          color: $color-tertiary; // Активный язык
+        }
+      }
     }
-  }
-
-  .language-selector {
-    margin-top: 15px;
-    font-size: 14px;
-    color: $color-primary;
-    text-align: left;
-    margin-left: 10px;
+    @media (min-width: $tablet-breakpoint) {
+      padding-left: 1.5rem; // Отступ слева на десктопе
+    }
   }
 }
 
-// Main Content Wrapper
+// Main content wrapper
 .main-content-wrapper {
-  flex-grow: 1;
-  // padding: 20px; // Учитывайте, что padding может быть добавлен в медиазапросах
-  background-color: $color-bg-light;
-  z-index: 1;
-  position: relative;
-  transition: $transition-transform;
+  flex-grow: 1; // Занимает оставшееся пространство
+  transition: transform 0.3s ease-in-out; // Для сдвига при открытии меню
 
-  .header {
+  @media (max-width: $mobile-breakpoint) {
+    overflow-x: hidden; // Предотвращает горизонтальный скролл при сдвиге
+    &--shifted {
+      transform: translateX($sidebar-width); // Сдвиг при открытом меню
+    }
+  }
+}
+
+// Header styles
+.header {
+  background-color: $color-bg-white;
+  padding: 1rem;
+  border-bottom: 1px solid $color-border;
+
+  @media (min-width: $tablet-breakpoint) {
+    padding-left: 1.5rem; // Отступ слева на десктопе
+    border-bottom: none; // Нет нижней границы на десктопе
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 10px;
-    margin-bottom: 20px;
-
-    &__top {
-      @include flex-between;
-      width: 100%;
-      padding-bottom: 10px;
-      border-bottom: 1px solid $color-border;
-    }
-
-    &__left {
-      display: flex;
-      align-items: center;
-      gap: 15px;
-    }
-
-    &__burger-btn {
-      background: none;
-      border: none;
-      cursor: pointer;
-      padding: 0;
-
-      img {
-        width: 40px;
-        height: 40px;
-      }
-    }
-
-    &__title-mobile {
-      font-size: 28px;
-      font-weight: bold;
-      flex-grow: 1;
-      text-align: left;
-      margin-left: 15px;
-      display: block;
-    }
-
-    &__title-desktop {
-      font-size: 28px;
-      font-weight: bold;
-      margin-bottom: 10px;
-      display: none; // Скрываем на мобильных по умолчанию
-    }
-
-    &__actions {
-      display: flex;
-    }
-
-    &__button {
-      background: none;
-      border: none;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      font-size: 14px;
-      color: $color-primary;
-      padding: 8px 12px;
-      border-radius: 20px;
-      transition: background-color 0.3s ease;
-
-      &:hover {
-        background-color: $color-hover-light;
-      }
-
-      img {
-        width: 40px;
-        height: 40px;
-      }
-    }
-
-    &__top-nav {
-      width: 100%;
-      margin-top: 10px;
-      padding-bottom: 10px;
-      border-bottom: 1px solid $color-border;
-      display: none; // Скрываем на мобильных по умолчанию
-
-      &-list {
-        list-style: none;
-        display: flex;
-        overflow-x: auto;
-        white-space: nowrap;
-        padding-bottom: 5px;
-        scrollbar-width: none;
-        -ms-overflow-style: none;
-
-        &::-webkit-scrollbar {
-          display: none;
-        }
-      }
-
-      &-item {
-        text-decoration: none;
-        color: $color-tertiary;
-        font-size: 16px;
-        padding: 8px 12px;
-        border-radius: $border-radius-tiny;
-        background-color: transparent;
-        transition: background-color 0.3s, color 0.3s;
-        flex-shrink: 0;
-
-        &:hover {
-          background-color: #f0f0f0;
-          color: $color-primary;
-        }
-
-        &--active {
-          background-color: $color-bg-white;
-          border: 1px solid $color-border;
-          color: $color-primary;
-          font-weight: bold;
-        }
-      }
-    }
   }
 
-  // Main Services Section
-  .main-services-section {
-    margin-top: 10px;
+  &__top {
     @include flex-between;
-    gap: 20px;
-    padding: 20px 0;
-    border-bottom: 1px solid $color-border;
-    margin-bottom: 20px;
-  }
+    width: 100%;
 
-  .main-services {
-    &__content {
-      flex: 1;
-      max-width: 500px;
-    }
-
-    &__description {
-      margin-top: 15px;
-      color: $color-primary;
-      font-size: 15px;
-    }
-
-    &__read-more {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      margin-top: 15px;
-      color: black;
-      cursor: pointer;
-      background: none;
-      border: none;
-      font-size: 16px;
-      text-decoration: none;
-      transition: $transition-color;
-
-      &:hover {
-        color: $color-accent;
-      }
-
-      img {
-        width: 16px;
-        height: 16px;
-      }
-    }
-
-    &__image {
-      flex: 1;
-      display: flex;
-      justify-content: flex-end;
-
-      img {
-        width: 100%;
-        max-width: 500px; // Увеличиваем размер логотипа
-        height: auto;
-        border-radius: $border-radius-medium;
-        object-fit: cover;
-      }
+    @media (min-width: $tablet-breakpoint) {
+      margin-bottom: 1rem;
     }
   }
 
-  // Services Brands Section - ОБНОВЛЕННЫЙ КОД ДЛЯ ВИДИМОСТИ
-  .brands-section {
-    padding: 24px 0;
-    background: none;
-    max-width: none;
-    margin: 0;
-    min-height: auto;
-
-    &__title {
-      font-size: 14px;
-      color: $color-tertiary;
-      margin-bottom: 20px;
-      @include text-uppercase;
-      padding-left: 0;
-    }
-  }
-
-  .services {
-    &__brands-wrapper {
-      overflow-x: visible; // По умолчанию, чтобы все 8 блоков были видны на десктопе
-    }
-
-    &__brands-grid {
-      display: grid; // Используем грид для десктопов
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 16px;
-      list-style: none;
-      padding: 0;
-      margin: 0;
-
-      // Скрываем элементы с классом --hidden-on-load по умолчанию на всех разрешениях
-      .services__brands-item--hidden-on-load {
-        display: none;
-      }
-
-      // Этот класс добавляется JavaScript, чтобы показать все скрытые элементы
-      &.services__brands-grid--expanded {
-        .services__brands-item--hidden-on-load {
-          display: block; // Показываем все скрытые элементы, когда грид расширен
-        }
-      }
-    }
-
-    &__brands-item {
-      width: 100%;
-    }
-
-    &__brands-link {
-      @include flex-between;
-      border: 1px solid $color-border;
-      padding: 16px 24px;
-      height: 72px;
-      background: $color-bg-white;
-      transition: box-shadow 0.3s;
-      box-sizing: border-box;
-      text-decoration: none;
-      border-radius: $border-radius-small;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      width: 100%;
-
-      &:hover {
-        box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
-      }
-    }
-
-    &__brands-logo {
-      max-height: 40px;
-      max-width: 100%;
-      object-fit: contain;
-    }
-
-    &__brands-arrow {
-      width: 24px;
-      height: 24px;
-      object-fit: contain;
-    }
-
-    &__toggle-btn {
-      display: flex;
-      margin-top: 16px;
-      font-size: 16px;
-      color: $color-accent;
-      background: transparent;
-      border: none;
-      cursor: pointer;
-      padding-left: 0;
-      text-align: left;
-      align-items: center;
-      gap: 8px;
-    }
-
-    &__toggle-icon {
-      width: 24px;
-      height: 24px;
-      object-fit: contain;
-      transition: $transition-transform;
-    }
-  }
-
-  // Repair Types Section (без изменений)
-  .repair-types-section {
-    padding: 24px 0;
-    margin-bottom: 30px;
-
-    .section-title {
-      font-size: 14px;
-      color: $color-tertiary;
-      margin-bottom: 20px;
-      @include text-uppercase;
-      font-weight: normal;
-    }
-  }
-
-  .cards-container {
-    // Базовые стили для мобильных устройств (до 767px):
-    // Блоки будут отображаться с горизонтальной прокруткой
-    display: flex;
-    flex-wrap: nowrap; // Предотвращаем перенос на новую строку
-    overflow-x: auto; // Включаем горизонтальную прокрутку
-    gap: 16px; // Отступ между карточками
-    margin-bottom: 30px;
-    scrollbar-width: none; // Скрываем скроллбар для Firefox
-    -ms-overflow-style: none; // Скрываем скроллбар для IE/Edge
-
-    &::-webkit-scrollbar {
-      display: none; // Скрываем скроллбар для Chrome/Safari
-    }
-
-    .card {
-      flex: 0 0 240px; // Каждая карточка имеет фиксированную ширину, не сжимается
-      min-width: 240px; // Обеспечиваем минимальную ширину
-    }
-
-    // Для планшетов и средних десктопов (от 768px до 1119px):
-    // Блоки будут отображаться по 2 в ряд
-    @media (min-width: 768px) {
-      display: grid; // Используем CSS Grid для создания колонок
-      grid-template-columns: repeat(2, 1fr); // 2 колонки равной ширины
-      gap: 16px; // Отступ между карточками
-      overflow-x: visible; // Отключаем горизонтальную прокрутку
-      flex-wrap: wrap; // Разрешаем перенос элементов на новую строку
-      justify-content: flex-start; // Выравниваем элементы по левому краю контейнера
-
-      .card {
-        width: auto; // Позволяем гриду управлять шириной карточек
-        flex: none; // Отменяем flex-свойства для грида
-        min-width: 0; // Снимаем минимальную ширину
-      }
-    }
-
-    // Для широких десктопов (от 1120px и выше):
-    // Блоки будут отображаться по 4 в ряд
-    @media (min-width: 1120px) {
-      grid-template-columns: repeat(4, 1fr); // 4 колонки равной ширины
-      gap: 32px; // Увеличиваем отступ между карточками для лучшего вида
-    }
-  }
-
-  .card {
-    background-color: $color-bg-white;
-    border-radius: $border-radius-small;
-    box-shadow: $shadow-card;
-    padding: 20px;
-    min-height: 180px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    position: relative;
-    border: 1px solid $color-border;
-    @include card-hover;
-  }
-
-  .card-title {
-    font-size: 18px;
-    color: $color-primary;
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    margin: 0;
-    font-weight: 500;
-  }
-
-  .go-button {
-    background-color: transparent;
-    color: transparent;
-    border: none;
-    border-radius: 50%;
-    width: 60px;
-    height: 60px;
+  &__left {
     @include flex-center;
-    padding: 0;
-    gap: 0;
-    position: absolute;
-    bottom: 20px;
-    right: 20px;
-    box-shadow: none;
-    transition: transform 0.2s ease;
+    gap: 0.5rem;
+
+    @media (min-width: $tablet-breakpoint) {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 0;
+      margin-right: auto;
+    }
+  }
+
+  &__burger-btn {
+    background: none;
+    border: none;
     cursor: pointer;
-
-    &:hover {
-      transform: scale(1.1);
-      background-color: rgba(255, 51, 51, 0.1);
-    }
-
-    &:active {
-      transform: scale(0.95);
-    }
-
-    img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-    }
-
-    span {
+    padding: 0.5rem;
+    @include button-hover-effect;
+    border-radius: 50%;
+    @media (min-width: $tablet-breakpoint) {
       display: none;
     }
   }
 
-  .show-all {
-    // Эта кнопка всегда видна
+  &__logo-mobile {
+    margin-left: 1rem;
+    @media (min-width: $tablet-breakpoint) {
+      display: none;
+    }
+  }
+
+  &__title-mobile {
+    font-size: 1.5rem;
+    margin-right: auto;
+    font-family: 'TT Lakes Bold';
+    @media (min-width: $tablet-breakpoint) {
+      display: none;
+    }
+  }
+
+  &__title-desktop {
+    display: none; // Скрыт по умолчанию
+    font-size: 1.5rem;
+    font-family: 'TT Lakes Bold';
+    color: $color-primary;
+    position: relative;
+    padding-left: 1rem;
+    margin-bottom: 1rem;
+
+    &::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 4px;
+      height: 40px;
+      background-color: #41f6d7;
+      border-top-right-radius: $border-radius-tiny;
+      border-bottom-right-radius: $border-radius-tiny;
+    }
+
+    @media (min-width: $tablet-breakpoint) {
+      display: block;
+      margin-top: 1rem;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    gap: 0.5rem;
+
+    .header__button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0.5rem;
+      @include button-hover-effect;
+      border-radius: 50%;
+      display: flex; // Делаем flex, чтобы текст и иконка были рядом
+      align-items: center;
+      gap: 0.5rem; // Отступ между иконкой и текстом
+      white-space: nowrap; // Предотвращает перенос текста
+
+      span {
+        display: none; // Текст скрыт по умолчанию
+        font-family: 'TT Lakes Medium';
+        color: $color-primary;
+      }
+
+      @media (max-width: $mobile-breakpoint) {
+        // Скрываем кнопки "Оставить заявку" и "Статус ремонта" на мобильных
+        &.repair-btn,
+        &.checkstatus-btn {
+          display: none;
+        }
+      }
+
+      @media (min-width: $tablet-breakpoint) {
+        span {
+          display: inline; // Показываем текст
+        }
+      }
+
+      @media (min-width: $desktop-breakpoint) {
+        &.chat-btn,
+        &.call-btn {
+          display: none;
+        }
+      }
+    }
+
+    @media (min-width: $tablet-breakpoint) {
+      .chat-btn,
+      .call-btn,
+      .profile-btn {
+        margin-right: 0.5rem;
+        position: relative;
+        &:before {
+          content: '';
+          position: absolute;
+          left: -0.5rem;
+          top: 50%;
+          transform: translateY(-50%);
+          height: 32px;
+          width: 2px;
+          background-color: $color-border;
+        }
+      }
+
+      .chat-btn:first-of-type::before {
+        display: none;
+      }
+      .profile-btn::before {
+        display: none;
+      }
+    }
+  }
+
+  &__top-nav {
+    display: none; // Скрыта по умолчанию
+
+    @media (min-width: $tablet-breakpoint) {
+      display: block; // Показываем на планшетах и десктопах
+      width: 100%;
+      overflow-x: auto; // Для горизонтальной прокрутки на планшетах
+      -webkit-overflow-scrolling: touch; // Плавная прокрутка на iOS
+      padding-bottom: 0.5rem; // Если есть полоса прокрутки
+    }
+
+    &-list {
+      list-style: none;
+      display: flex;
+      gap: 1.5rem;
+      padding-left: 0; // Сброс стандартного отступа ul
+      white-space: nowrap; // Предотвращает перенос строк
+    }
+
+    &-item {
+      font-family: 'TT Lakes Medium';
+      font-size: 1rem;
+      color: $color-secondary;
+      padding: 0.5rem 0.8rem;
+      border: 1px solid transparent; // Изначально прозрачная рамка
+      border-radius: $border-radius-tiny;
+      cursor: pointer;
+      transition: $transition-main;
+
+      &:hover {
+        background-color: $color-hover-bg;
+      }
+
+      &--active {
+        background-color: $color-bg-white;
+        border-color: $color-border;
+        color: $color-tertiary;
+      }
+    }
+  }
+}
+
+// Main Services Section
+.main-services-section {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+
+  @media (min-width: $tablet-breakpoint) {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 1rem 1.5rem;
+  }
+
+  &__content {
+    flex-basis: 50%;
+  }
+
+  &__description {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    color: $color-primary;
+    margin-bottom: 1rem;
+  }
+
+  #olegMessage {
+    display: none; // Скрыт по умолчанию, JS управляет
+  }
+
+  &__read-more {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: 'TT Lakes Medium';
+    font-size: 1rem;
+    color: $color-secondary;
     display: flex;
     align-items: center;
-    color: $color-secondary;
-    font-size: 16px;
-    cursor: pointer;
-    text-decoration: none;
-
-    &__icon {
-      width: 24px;
-      height: 24px;
-      margin-right: 8px;
-      transition: $transition-transform;
-    }
-
-    a {
-      color: $color-secondary;
-      text-decoration: none;
-      border-bottom: 1px dotted $color-secondary;
-      transition: color 0.2s ease, border-color 0.2s ease;
-    }
+    gap: 0.5rem;
+    padding: 0.5rem 0;
+    transition: $transition-main;
 
     &:hover {
-      .show-all__icon {
-        transform: rotate(180deg);
+      color: $color-accent;
+    }
+
+    img {
+      transition: $transition-transform;
+    }
+  }
+
+  &__image {
+    flex-basis: 50%;
+    min-width: 0; // Позволяет изображению уменьшаться
+    img {
+      max-width: 100%;
+      height: auto;
+      display: block; // Убирает лишние отступы под изображением
+      border-radius: $border-radius; // Закругленные углы
+    }
+  }
+}
+
+.services {
+  padding: 1.5rem 0;
+
+  &__title {
+    font-size: 0.875rem;
+    color: $color-tertiary;
+    margin-bottom: 1.25rem;
+    @include text-uppercase;
+    font-weight: normal;
+
+    @media (min-width: $tablet-breakpoint) {
+      padding-left: 1rem;
+    }
+  }
+}
+
+.brands-section {
+  .brands-swiper {
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+    padding-bottom: 2rem; // Место для пагинации
+    box-sizing: border-box;
+
+    // На десктопах, Swiper не должен быть слайдером, а должен быть сеткой
+    @media (min-width: $tablet-breakpoint) {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      overflow: visible; // Позволяет элементам выходить за контейнер
+      padding: 0 1.5rem; // Отступы для грида
+      padding-bottom: 0; // Убираем отступ для пагинации
+    }
+
+    @media (min-width: $desktop-breakpoint) {
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+    }
+
+    &.services__brands-grid--expanded {
+      @media (min-width: $tablet-breakpoint) {
+        grid-template-columns: repeat(3, 1fr);
+        @media (min-width: $desktop-breakpoint) {
+          grid-template-columns: repeat(
+            4,
+            1fr
+          ); // Пример для десктопов при раскрытии
+        }
+        @media (min-width: $large-desktop-breakpoint) {
+          grid-template-columns: repeat(
+            auto-fit,
+            minmax(220px, 1fr)
+          ); // Более адаптивный подход
+        }
+      }
+    }
+
+    .swiper-wrapper {
+      @media (min-width: $tablet-breakpoint) {
+        display: contents; // Сбрасываем flex-поведение swiper-wrapper на десктопе
+        // Это позволяет дочерним элементам swiper-slide позиционироваться в гриде родителя
+      }
+    }
+
+    .swiper-slide.services__brands-item {
+      height: 100%;
+      flex-shrink: 0; // Предотвращаем сжатие
+      width: 20rem; // Задаем ширину для мобильных слайдов
+      min-width: 20rem;
+      max-width: none; // Сбрасываем max-width
+
+      // Карточка бренда
+      background-color: $color-bg-white;
+      border: 1px solid $color-border;
+      border-radius: $border-radius-small;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem;
+      box-shadow: $shadow-card;
+      transition: $transition-main;
+
+      &:active {
+        transform: scale(0.98);
       }
 
-      a {
-        color: $color-danger;
-        border-color: $color-danger;
+      &:hover {
+        box-shadow: $shadow-hover;
       }
+
+      // Скрываем лишние элементы на десктопе по умолчанию
+      &--hidden-on-load {
+        @media (min-width: $tablet-breakpoint) {
+          display: none; // Скрываем по умолчанию на десктопах, JS будет показывать
+        }
+      }
+
+      // На десктопах, слайды должны быть частью сетки, без фиксированной ширины
+      @media (min-width: $tablet-breakpoint) {
+        width: auto; // Сбрасываем фиксированную ширину
+        min-width: 0;
+        max-width: none;
+        display: flex; // Убедимся, что все слайды видимы
+      }
+
+      .services__brands-link {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        text-decoration: none;
+        color: inherit;
+      }
+
+      .services__brands-logo {
+        max-height: 1.5rem;
+        object-fit: contain;
+      }
+
+      .services__brands-arrow {
+        width: 2rem;
+        height: 2rem;
+        background-color: $color-accent;
+        border-radius: 50%;
+        padding: 0.5rem;
+        transition: $transition-main;
+
+        &:active {
+          transform: scale(0.9);
+        }
+      }
+    }
+  }
+
+  // Swiper pagination styles
+  .swiper-pagination.brands-pagination {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: auto;
+    text-align: center;
+    margin-top: 1rem;
+    display: block; // Показываем на мобильных
+
+    @media (min-width: $tablet-breakpoint) {
+      display: none; // Скрываем на планшетах и десктопах
+    }
+
+    .swiper-pagination-bullet {
+      background-color: $color-tertiary; // Цвет точек
+      opacity: 0.5;
+      width: 0.5rem;
+      height: 0.5rem;
+      margin: 0 0.25rem;
+      transition: opacity 0.3s, background-color 0.3s;
+      border-radius: 50%;
+
+      &-active {
+        background-color: $color-accent; // Активная точка
+        opacity: 1;
+      }
+    }
+  }
+
+  // Кнопка "Показать все"
+  .services__toggle-btn {
+    display: none; // Скрываем по умолчанию (на мобильных)
+    margin-top: 1rem; // Отступ сверху
+    margin-left: 1rem; // Отступ слева
+
+    @media (min-width: $tablet-breakpoint) {
+      display: flex; // Показываем на планшетах и десктопах
+      font-size: 1rem;
+      color: $color-secondary;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      padding: 0.5rem 0;
+      text-align: left;
+      align-items: center;
+      gap: 0.5rem;
+      transition: $transition-main;
+
+      &:hover {
+        color: $color-accent;
+      }
+    }
+
+    .services__toggle-icon {
+      transition: $transition-transform;
+    }
+  }
+}
+
+// Repair types section styles
+.repair-types-section {
+  padding: 1.5rem 0;
+  margin-bottom: 1.875rem;
+
+  .section-title {
+    font-size: 0.875rem;
+    color: $color-tertiary;
+    margin-bottom: 1.25rem;
+    @include text-uppercase;
+    font-weight: normal;
+    @media (min-width: $tablet-breakpoint) {
+      padding-left: 1rem;
+    }
+  }
+
+  // Общий контейнер для Swiper
+  .repair-types-swiper {
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+    padding-bottom: 2rem; // Место для пагинации
+    box-sizing: border-box;
+
+    display: block; // По умолчанию на мобильных это Swiper
+
+    @media (min-width: $tablet-breakpoint) {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+      overflow: visible;
+      padding: 0 1.5rem; // Отступы для грида
+      padding-bottom: 0; // Убираем отступ для пагинации
+    }
+
+    @media (min-width: $desktop-breakpoint) {
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+    }
+
+    .swiper-wrapper.cards-container {
+      @media (min-width: $tablet-breakpoint) {
+        display: contents; // Сбрасываем flex-поведение swiper-wrapper
+      }
+    }
+
+    .swiper-slide.card {
+      height: 100%; // Чтобы карточка растягивалась на всю высоту
+      flex-shrink: 0;
+      width: 21.875rem; // Задаем ширину для мобильных слайдов
+      min-width: 21.875rem;
+      max-width: none;
+
+      // Карточка типа ремонта
+      background-color: $color-bg-white;
+      border: 1px solid $color-border;
+      border-radius: $border-radius-small;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: flex-start;
+      padding: 1rem;
+      box-shadow: $shadow-card;
+      transition: $transition-main;
+
+      &:hover {
+        box-shadow: $shadow-hover;
+      }
+
+      .card-title {
+        font-family: 'TT Lakes Medium';
+        font-size: 1rem;
+        color: $color-primary;
+        margin-bottom: 1rem;
+      }
+
+      .go-button {
+        background: $color-accent;
+        border: none;
+        border-radius: 50%;
+        width: 2.5rem;
+        height: 2.5rem;
+        @include flex-center;
+        cursor: pointer;
+        transition: $transition-main;
+
+        &:active {
+          transform: scale(0.9);
+        }
+      }
+
+      // На десктопах, слайды должны быть частью сетки, без фиксированной ширины
+      @media (min-width: $tablet-breakpoint) {
+        width: auto; // Сбрасываем фиксированную ширину
+        min-width: 0;
+        max-width: none;
+        display: flex; // Убедимся, что все слайды видимы
+      }
+
+      // Класс для скрытия на десктопе по умолчанию, показывается через JS
+      &.repair-types-item--hidden-on-load {
+        @media (min-width: $tablet-breakpoint) {
+          display: none;
+        }
+      }
+    }
+  }
+
+  // Swiper pagination styles
+  .swiper-pagination.repair-types-pagination {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: auto;
+    text-align: center;
+    margin-top: 1rem;
+    display: block; // Показываем на мобильных
+
+    @media (min-width: $tablet-breakpoint) {
+      display: none; // Скрываем на планшетах и десктопах
+    }
+
+    .swiper-pagination-bullet {
+      background-color: $color-tertiary;
+      opacity: 0.5;
+      width: 0.5rem;
+      height: 0.5rem;
+      margin: 0 0.25rem;
+      transition: opacity 0.3s, background-color 0.3s;
+      border-radius: 50%;
+
+      &-active {
+        background-color: $color-accent;
+        opacity: 1;
+      }
+    }
+  }
+
+  // Теперь ваша кнопка "Показать все"
+  .show-all {
+    display: none; // Скрываем по умолчанию (на мобильных)
+    margin-top: 1rem;
+    margin-left: 1rem;
+
+    @media (min-width: $tablet-breakpoint) {
+      display: flex; // Показываем на планшетах и десктопах
+      font-size: 1rem;
+      color: $color-secondary;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      padding: 0.5rem 0;
+      text-align: left;
+      align-items: center;
+      gap: 0.5rem;
+      transition: $transition-main;
+
+      &:hover {
+        color: $color-accent;
+      }
+    }
+
+    &__icon {
+      transition: $transition-transform;
     }
   }
 }
 
 // Pricing Section
 .pricing-section {
-  padding: 24px 0;
-  margin-bottom: 30px;
+  padding: 1.5rem 0;
+  margin-bottom: 1.875rem;
 
   .section-title {
-    font-size: 14px;
+    font-size: 0.875rem;
     color: $color-tertiary;
-    margin-bottom: 20px;
+    margin-bottom: 1.25rem;
     @include text-uppercase;
     font-weight: normal;
+    @media (min-width: $tablet-breakpoint) {
+      padding-left: 1rem;
+    }
   }
 
-  .pricing-container {
+  // Контейнер таблицы на десктопе
+  .pricing-container--desktop {
     background: $color-bg-white;
     border-radius: $border-radius-small;
     overflow: hidden;
     box-shadow: $shadow-card;
     border: 1px solid $color-border;
+    margin: 0 1.5rem; // Отступы для десктопа
+
+    @media (max-width: $mobile-breakpoint) {
+      display: none; // Скрываем на мобильных, так как будет Swiper
+    }
   }
 
   .pricing-header {
     @include grid-layout(2fr 1fr 1fr 150px);
-    padding: 20px;
+    padding: 1.25rem;
     background: $color-bg-gray;
     border-bottom: 1px solid $color-border;
     font-weight: 600;
@@ -751,493 +952,215 @@ body {
     font-size: 0.9rem;
   }
 
-  .pricing-item {
-    @include grid-layout(2fr 1fr 1fr 150px);
-    align-items: center;
-    padding: 20px;
-    border-bottom: 1px solid $color-border-light;
-    transition: $transition-main;
+  // Swiper контейнер для элементов цен (ТОЛЬКО для мобильных)
+  .pricing-swiper {
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+    padding-bottom: 2rem;
+    box-sizing: border-box;
+    display: block; // По умолчанию на мобильных это Swiper
+    padding-left: 1rem; // Начальный отступ для первого слайда
+    padding-right: 1rem; // Отступ для последнего слайда
 
-    &:hover {
-      background: $color-hover-bg;
+    // На десктопе, скрываем Swiper-контейнер, чтобы показать обычную таблицу
+    @media (min-width: $tablet-breakpoint) {
+      display: none; // Полностью скрываем Swiper на десктопе
     }
 
-    &:last-child {
-      border-bottom: none;
+    .swiper-wrapper {
+      // Swiper автоматически задает display: flex и flex-direction: row
+    }
+
+    .swiper-slide.pricing-item {
+      height: auto;
+      flex-shrink: 0;
+      width: 22.5rem; // Задаем ширину для мобильных слайдов
+      min-width: 22.5rem;
+      max-width: none;
+      background: $color-bg-white;
+      border: 1px solid #e0e0e0;
+      border-radius: $border-radius-small;
+      // margin-bottom: 0.9375rem; // Отступ между слайдами теперь контролируется spaceBetween Swiper
+    }
+  }
+
+  // Стили для pricing-item (применяются как к слайдам, так и к десктопным элементам)
+  .pricing-item {
+    @media (min-width: $tablet-breakpoint) {
+      @include grid-layout(2fr 1fr 1fr 150px);
+      align-items: center;
+      padding: 1.25rem;
+      border-bottom: 1px solid $color-border-light;
+      transition: $transition-main;
+
+      &:hover {
+        background: $color-hover-bg;
+      }
+
+      &:last-child {
+        border-bottom: none;
+      }
+    }
+
+    @media (max-width: $mobile-breakpoint) {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.625rem;
+      text-align: left;
+      padding: 1rem; // Немного меньше паддинг на мобильных для слайдов
+      // border, border-radius, background уже на .swiper-slide.pricing-item
+      // margin-bottom уже на .swiper-slide.pricing-item
     }
 
     .service-name {
-      font-size: 1rem;
+      font-family: 'TT Lakes Medium';
       color: $color-primary;
-      font-weight: 500;
-      line-height: 1.4;
-    }
-
-    .service-price {
       font-size: 1rem;
-      font-weight: 600;
-      color: $color-text-dark;
+      @media (max-width: $mobile-breakpoint) {
+        font-size: 0.9rem;
+      }
     }
 
+    .service-price,
     .service-time {
-      font-size: 0.9rem;
       color: $color-secondary;
+      font-size: 1rem;
+      @media (max-width: $mobile-breakpoint) {
+        font-size: 0.85rem;
+      }
     }
 
     .service-action {
-      .order-btn {
-        background: transparent;
-        border: none;
-        padding: 12px;
-        cursor: pointer;
-        transition: $transition-main;
-        border-radius: 50%;
-        @include flex-center;
+      @include flex-center;
+      @media (max-width: $mobile-breakpoint) {
+        width: 100%;
+        justify-content: flex-end; // Прижимаем кнопку вправо
+      }
+    }
 
-        &:hover {
-          background: rgba(255, 51, 51, 0.1);
-          transform: scale(1.1);
-        }
+    .order-btn {
+      background: $color-accent;
+      border: none;
+      border-radius: $border-radius-medium;
+      color: $color-bg-white;
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      font-size: 0.875rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: $transition-main;
 
-        &:active {
-          transform: scale(0.95);
-        }
+      &:hover {
+        background: $color-accent-hover;
+        transform: scale(1.02);
+      }
+      &:active {
+        transform: scale(0.98);
+      }
+      img {
+        width: 1.5rem;
+        height: 1.5rem;
+      }
+    }
+  }
 
-        .order-icon {
-          width: 48px; /* Увеличено */
-          height: 48px; /* Увеличено */
-          object-fit: contain;
-        }
+  // Swiper pagination styles для цен
+  .swiper-pagination.pricing-pagination {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: auto;
+    text-align: center;
+    margin-top: 1rem;
+    display: block; // Показываем на мобильных
+
+    @media (min-width: $tablet-breakpoint) {
+      display: none; // Скрываем на планшетах и десктопах
+    }
+
+    .swiper-pagination-bullet {
+      background-color: $color-tertiary;
+      opacity: 0.5;
+      width: 0.5rem;
+      height: 0.5rem;
+      margin: 0 0.25rem;
+      transition: opacity 0.3s, background-color 0.3s;
+      border-radius: 50%;
+
+      &-active {
+        background-color: $color-accent;
+        opacity: 1;
       }
     }
   }
 
   .pricing-info {
-    padding: 20px;
-    background: $color-bg-gray;
-    color: $color-secondary;
-    font-size: 0.9rem;
-    line-height: 1.6;
+    margin-top: 1.5rem;
+    padding: 0 1.5rem; // Отступы
+    font-size: 0.875rem;
+    color: $color-primary;
+
+    p {
+      margin-bottom: 1rem;
+      line-height: 1.25rem;
+    }
 
     .commercial-offer {
-      color: $color-success;
-      text-decoration: none;
-      font-weight: 500;
-      transition: $transition-color;
       display: inline-flex;
       align-items: center;
-      gap: 8px;
+      gap: 0.5rem;
+      color: $color-secondary;
+      text-decoration: none;
+      font-family: 'TT Lakes Medium';
+      font-size: 1rem;
+      transition: $transition-main;
 
       &:hover {
-        color: $color-accent-hover;
-        text-decoration: underline;
+        color: $color-accent;
       }
 
       .offer-arrow {
-        width: 16px;
-        height: 16px;
+        width: 1.5rem;
+        height: 1.5rem;
+        transition: $transition-transform;
       }
     }
   }
 }
 
-// Footer
+// Footer styles
 .footer {
-  margin-top: 40px;
-  padding: 30px 0;
+  background-color: $color-bg-light;
+  padding: 1.5rem;
   border-top: 1px solid $color-border;
-  background: $color-bg-white;
   display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  font-size: 0.85rem;
+  flex-direction: column;
+  gap: 1rem;
+  text-align: center;
+  font-size: 0.875rem;
   color: $color-secondary;
 
-  .footer-left,
-  .footer-center,
-  .footer-right {
-    flex: 1;
+  @media (min-width: $tablet-breakpoint) {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem;
+    text-align: left;
 
-    p {
-      margin-bottom: 5px;
-      line-height: 1.4;
+    .footer-left {
+      flex-basis: 33%;
     }
-  }
-
-  .footer-center {
-    text-align: center;
-  }
-
-  .footer-right {
-    text-align: right;
-  }
-}
-
-// Mobile Styles
-@media (max-width: 767px) {
-  .sidebar-menu {
-    position: fixed;
-    left: -$sidebar-width;
-    top: 0;
-    height: 100%;
-    transition: left 0.3s ease-in-out;
-
-    &--open {
-      left: 0;
-    }
-
-    .menu-header .close {
-      display: block; // Показываем кнопку закрытия на мобильных
-    }
-  }
-
-  .main-content-wrapper {
-    transform: translateX(0);
-    transition: $transition-transform;
-
-    &--shifted {
-      transform: translateX($sidebar-width);
-    }
-
-    .header {
-      &__top {
-        padding: 0;
-        border-bottom: none;
-      }
-
-      &__actions {
-        display: none; // Скрываем кнопки "Оставить заявку" и "Статус ремонта" на мобильных
-      }
-
-      &__button {
-        span {
-          display: none;
-        }
-
-        img {
-          width: 32px;
-          height: 32px;
-        }
-      }
-
-      &__burger-btn {
-        display: block;
-      }
-
-      &__title-desktop {
-        display: none; // Скрываем заголовок десктопа на мобильных
-      }
-
-      &__top-nav {
-        display: none; // Скрываем навигацию заголовка на мобильных
-      }
-    }
-
-    // Mobile brands with horizontal scroll - ОБНОВЛЕННЫЙ КОД ДЛЯ ВИДИМОСТИ НА МОБИЛЬНЫХ
-    .services__brands-wrapper {
-      overflow-x: auto; // Горизонтальная прокрутка для брендов
-    }
-
-    .services__brands-grid {
-      display: flex; // Важно: используем flex для горизонтального скролла
-      flex-wrap: nowrap; // Элементы в одну строку
-      grid-template-columns: none; // Отключаем грид для мобильных
-      overflow-x: auto;
-      scrollbar-width: none;
-      -ms-overflow-style: none;
-
-      &::-webkit-scrollbar {
-        display: none;
-      }
-
-      // На мобильных скрываем "hidden-on-load" элементы по умолчанию
-      .services__brands-item--hidden-on-load {
-        display: none;
-      }
-
-      // На мобильных показываем "hidden-on-load" элементы, когда грид расширен
-      &.services__brands-grid--expanded {
-        flex-wrap: wrap; // Позволяет элементам переноситься на новую строку, если нужно
-        overflow-x: visible; // Отключаем горизонтальную прокрутку, если все элементы видны
-        justify-content: flex-start; // Выравниваем элементы
-        .services__brands-item--hidden-on-load {
-          display: block; // Показываем все элементы
-        }
-      }
-    }
-
-    .services__brands-item {
-      margin-right: 16px; // Отступ между элементами при горизонтальной прокрутке
-      flex: 0 0 auto;
-      min-width: 240px;
-      width: 240px; // Фиксированная ширина для свайпера
-    }
-
-    .services__toggle-btn {
-      display: flex; // Кнопка "Показать все" всегда видна на мобильных
-    }
-
-    .main-services-section {
-      flex-direction: column;
-      padding-bottom: 0;
-      border-bottom: none;
-    }
-
-    .main-services__content {
-      max-width: 100%;
-    }
-
-    .main-services__image {
-      justify-content: center;
-      margin-top: 20px;
-
-      img {
-        max-width: 350px; // Увеличиваем размер логотипа для мобильной версии
-      }
-    }
-
-    .cards-container {
-      // Мобильная версия уже использует flex с горизонтальной прокруткой, без изменений
-      // Стили для мобильных остаются как были, для десктопов они переопределяются
-      display: flex;
-      overflow-x: auto;
-      gap: 10px;
-      grid-template-columns: none; // Убеждаемся, что грид отключен на мобильных
-
-      .card {
-        flex: 0 0 200px;
-        min-width: 200px;
-      }
-    }
-
-    .card {
-      min-height: 150px;
-      padding: 15px;
-    }
-
-    .card-title {
-      top: 15px;
-      left: 15px;
-      font-size: 16px;
-    }
-
-    .go-button {
-      width: 36px;
-      height: 36px;
-      bottom: 15px;
-      right: 15px;
-    }
-
-    .show-all {
-      display: flex; // Кнопка всегда видна на мобильных
-      font-size: 14px;
-
-      &__icon {
-        width: 20px;
-        height: 20px;
-      }
-    }
-
-    // Mobile pricing styles
-    .pricing-header {
-      display: none; // Скрываем шапку таблицы на мобильных
-    }
-
-    .pricing-item {
-      grid-template-columns: 1fr;
-      gap: 10px;
-      text-align: left;
-      padding: 20px;
-      border: 1px solid #e0e0e0;
-      border-radius: $border-radius-small;
-      margin-bottom: 15px;
-      background: $color-bg-white;
-
-      .service-name {
-        margin-bottom: 10px;
-        font-weight: 600;
-      }
-
-      .service-price {
-        margin-bottom: 5px;
-
-        &:before {
-          content: 'Цена: ';
-          color: $color-secondary;
-          font-weight: normal;
-        }
-      }
-
-      .service-time {
-        margin-bottom: 15px;
-
-        &:before {
-          content: 'Срок: ';
-          color: $color-secondary;
-          font-weight: normal;
-        }
-      }
-
-      .service-action .order-btn {
-        width: 100%;
-        padding: 15px;
-        border-radius: $border-radius-small;
-
-        .order-icon {
-          width: 32px; /* Увеличено для мобильных */
-          height: 32px; /* Увеличено для мобильных */
-        }
-      }
-    }
-  }
-
-  .footer {
-    flex-direction: column;
-    gap: 20px;
-    text-align: center;
-
-    .footer-left,
-    .footer-center,
-    .footer-right {
+    .footer-center {
+      flex-basis: 33%;
       text-align: center;
     }
-  }
-}
-
-@media (min-width: 768px) {
-  .sidebar-menu {
-    position: relative;
-    left: 0;
-    box-shadow: none;
-    border-right: 1px solid $color-border;
-
-    .menu-header .close {
-      display: none; // Скрываем кнопку закрытия на десктопах
-    }
-  }
-
-  .main-content-wrapper {
-    .header {
-      &__burger-btn {
-        display: none; // Скрываем бургер-кнопку на десктопах
-      }
-
-      &__title-mobile {
-        display: none; // Скрываем мобильный заголовок на десктопах
-      }
-
-      &__title-desktop {
-        display: block; // Показываем десктопный заголовок
-        margin-left: 0;
-        padding-left: 0;
-      }
-
-      &__actions {
-        display: flex; // Показываем кнопки действий
-      }
-
-      &__button span {
-        display: inline; // Показываем текст в кнопках действий
-      }
-
-      &__top-nav {
-        display: block; // Показываем верхнюю навигацию
-      }
-    }
-
-    // Desktop Brands section (adjusting for "show all" functionality) - ОБНОВЛЕННЫЙ КОД ДЛЯ ВИДИМОСТИ НА ДЕСКТОПЕ
-    .services__brands-wrapper {
-      overflow-x: visible; // Без горизонтальной прокрутки
-    }
-
-    .services__brands-grid {
-      display: grid; // Используем грид для десктопов
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 16px;
-      justify-content: flex-start;
-      overflow-x: visible;
-
-      // На десктопах скрываем "hidden-on-load" элементы по умолчанию
-      .services__brands-item--hidden-on-load {
-        display: none;
-      }
-
-      // Этот класс будет добавлен JavaScript для показа всех элементов
-      &.services__brands-grid--expanded {
-        .services__brands-item--hidden-on-load {
-          display: block; // Показываем все скрытые элементы
-        }
-      }
-    }
-
-    .services__brands-item {
-      width: 100%;
-      margin-right: 0;
-
-      &:nth-child(odd) {
-        margin-right: 0;
-      }
-
-      &:nth-child(even) {
-        margin-left: 0;
-      }
-    }
-
-    .services__toggle-btn {
-      display: flex; // Кнопка "Показать все" всегда видна на десктопе
-    }
-
-    .cards-container {
-      // Здесь были внесены изменения для десктопов (min-width: 768px)
-      display: grid; // Переключаемся на грид
-      grid-template-columns: repeat(2, 1fr); // 2 колонки на средних экранах
-      gap: 16px;
-      overflow-x: visible; // Отключаем горизонтальную прокрутку
-      flex-wrap: wrap; // Разрешаем перенос
-      justify-content: flex-start;
-
-      .card {
-        width: auto;
-        flex: none;
-        min-width: 0;
-      }
-    }
-
-    .show-all {
-      display: flex; // Кнопка "Показать все" всегда видна на десктопе для видов ремонта
-    }
-  }
-}
-
-@media (min-width: 1120px) {
-  .main-content-wrapper {
-    padding-left: 30px;
-    max-width: calc(1350px - #{$sidebar-width});
-    margin: 0%;
-
-    .services__brands-wrapper {
-      overflow-x: visible;
-    }
-
-    .services__brands-grid {
-      gap: 16px;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-
-      .services__brands-item--hidden-on-load {
-        display: none;
-      }
-
-      &.services__brands-grid--expanded {
-        .services__brands-item--hidden-on-load {
-          display: block; // Показываем все элементы при расширении
-        }
-      }
-    }
-
-    .cards-container {
-      grid-template-columns: repeat(4, 1fr); // 4 колонки на широких экранах
-      gap: 32px; // Увеличиваем отступ
+    .footer-right {
+      flex-basis: 33%;
+      text-align: right;
     }
   }
 }
