@@ -1,3 +1,4 @@
+// @font-face (без изменений)
 @font-face {
   font-family: 'TT Lakes';
   src: url('../fonts/TTLakes/TTLakes-Regular.woff');
@@ -22,7 +23,10 @@
   font-display: swap;
 }
 
+// Переменные (без изменений)
 $font-primary: 'TT Lakes', 'Arial', sans-serif;
+
+// Цвета (без изменений)
 $color-primary: #333;
 $color-secondary: #666;
 $color-tertiary: #7e7e82;
@@ -32,37 +36,49 @@ $color-success: #007bff;
 $color-danger: #ff3333;
 $color-danger-hover: #e62929;
 $color-text-dark: #2c3e50;
+
+// Цвета фона (без изменений)
 $color-bg-light: #f8f8f8;
 $color-bg-white: #ffffff;
 $color-bg-gray: #f8f9fa;
+
+// Цвета границ (без изменений)
 $color-border: #e3e3e3;
 $color-border-light: #f0f0f0;
 $color-border-dark: #ddd;
+
+// Цвета для состояний наведения (без изменений)
 $color-hover-bg: rgba(0, 0, 0, 0.02);
 $color-hover-light: rgba(0, 0, 0, 0.05);
 
+// Радиусы скругления (без изменений)
 $border-radius: 20px;
 $border-radius-medium: 10px;
 $border-radius-small: 8px;
 $border-radius-tiny: 5px;
 
+// Тени (без изменений)
 $shadow-main: 0 6px 20px rgba(0, 0, 0, 0.1);
 $shadow-card: 0 2px 5px rgba(0, 0, 0, 0.05);
 $shadow-hover: 0 4px 10px rgba(0, 0, 0, 0.1);
 $shadow-text: 0 2px 4px rgba(0, 0, 0, 0.3);
 $shadow-button: 0 4px 8px rgba(255, 51, 51, 0.3);
 
+// Переходы (без изменений)
 $transition-main: all 0.3s ease;
 $transition-transform: transform 0.3s ease-in-out;
 $transition-color: color 0.3s ease;
 
+// Размеры (без изменений)
 $sidebar-width: 320px;
+
+// Брейкпоинты (без изменений)
 $mobile-breakpoint: 767px;
 $tablet-breakpoint: 768px;
 $desktop-breakpoint: 1120px;
-$large-desktop-breakpoint: 1440px;
+$large-desktop-breakpoint: 1440px; // Добавляем брейкпойнт для больших десктопов
 
-// Mixins
+// Миксины (без изменений)
 @mixin flex-center {
   display: flex;
   justify-content: center;
@@ -88,8 +104,12 @@ $large-desktop-breakpoint: 1440px;
     background: $bg-color;
     transform: scale(1.05);
   }
-  a &:active {
+  &:active {
     transform: scale(0.95);
+  }
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px $color-accent;
   }
 }
 
@@ -107,7 +127,7 @@ $large-desktop-breakpoint: 1440px;
   letter-spacing: 0.5px;
 }
 
-// Base styles
+// Базовые стили (без изменений)
 * {
   margin: 0;
   padding: 0;
@@ -137,6 +157,7 @@ body {
   }
 }
 
+// Стили сайдбара
 .sidebar-menu {
   position: fixed;
   top: 0;
@@ -149,49 +170,139 @@ body {
   z-index: 1000;
   display: flex;
   flex-direction: column;
+  overflow-y: auto;
 
   &--open {
     left: 0;
   }
 
   @media (min-width: $tablet-breakpoint) {
-    position: static; // Не фиксирован на десктопе
-    width: auto; // Ширина по содержимому
+    position: static;
+    width: $sidebar-width;
+    min-width: $sidebar-width;
     box-shadow: none;
     transition: none;
-    display: flex;
-    flex-direction: column;
-    padding-right: 1.5rem; // Отступ справа от основного контента
-    min-width: $sidebar-width; // Минимальная ширина для десктопа
+    padding-top: 0;
+    padding-right: 0;
   }
 
-  .menu-header {
+  .sidebar-logo-container {
+    padding: 1.5rem;
+    border-bottom: 1px solid $color-border-light;
+    display: none;
+
+    @media (min-width: $tablet-breakpoint) {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 1rem;
+    }
+  }
+
+  // Обновленные и максимально простые стили для logo.png
+  // Применяем к тегу img внутри контейнеров
+  /* Если у img есть класс sidebar-main-logo */
+  .main-services__image, /* Если у img есть класс sidebar-main-logo */
+  .menu-header-mobile .logo img, /* Для логотипа в мобильном меню */
+  .header__logo-mobile img /* Для логотипа в мобильном хедере */ {
+    display: block; /* Убираем лишние пробелы и позволяем управлять размерами */
+    width: auto; /* Позволяем ширине меняться, сохраняя пропорции */
+    height: auto; /* Сохраняем пропорции изображения */
+    max-width: 100%; /* Изображение никогда не будет шире своего родителя */
+    object-fit: contain; /* Гарантируем, что изображение полностью помещается внутри элемента, сохраняя пропорции */
+
+    /* Контроль размеров на разных брейкпоинтах */
+    /* Важно: эти значения будут переопределять 'width: auto' на заданных брейкпоинтах */
+
+    // Базовые стили для всех мобильных (от 0 до 479px)
+    max-width: 90px;
+    min-width: 45px; // Убедимся, что лого не становится слишком маленьким
+
+    // Для большинства мобильных (от 480px до 766px, включая ваш диапазон 600px)
+    @media (min-width: 480px) and (max-width: ($mobile-breakpoint - 1)) {
+      // $mobile-breakpoint = 767px
+      max-width: 110px; // Увеличиваем max-width для лучшей адаптации в этом диапазоне
+    }
+
+    // Для мобильных и планшетов (от 767px - $mobile-breakpoint)
+    @media (min-width: $mobile-breakpoint) {
+      // 767px
+      max-width: 130px; // Размер для планшетов, начиная с этой точки
+    }
+
+    // Для планшетов (от 768px - $tablet-breakpoint)
+    @media (min-width: $tablet-breakpoint) {
+      // 768px
+      max-width: 160px; // Размер для планшетов
+    }
+
+    // Для десктопов (от 1120px)
+    @media (min-width: $desktop-breakpoint) {
+      // 1120px
+      max-width: 190px; // Размер для десктопов
+    }
+
+    // Для больших десктопов (от 1440px)
+    @media (min-width: $large-desktop-breakpoint) {
+      // 1440px
+      max-width: 220px; // Размер для очень больших десктопов
+    }
+
+    // Для очень больших разрешений (от 1920px и выше)
+    @media (min-width: 1920px) {
+      max-width: 250px; // Увеличиваем для максимального разрешения
+    }
+  }
+
+  .sidebar-header-search-icon {
+    width: 60px;
+    height: 60px;
+    margin-left: auto;
+    padding: 0.5rem;
+    border-radius: 10%;
+    cursor: pointer;
+    @include button-hover-effect;
+  }
+
+  .menu-header-mobile {
     @include flex-between;
     padding: 1rem;
     border-bottom: 1px solid $color-border;
+    width: 100%;
+
+    @media (min-width: $tablet-breakpoint) {
+      display: none;
+    }
 
     .close {
       background: none;
       border: none;
       cursor: pointer;
-      padding: 0.5rem;
-      &:active {
-        transform: scale(0.95);
+      padding: 0.25rem;
+      @include button-hover-effect;
+
+      img {
+        width: 30px;
+        height: 30px;
       }
     }
+
     .logo {
+      margin-left: 0.5rem;
       margin-right: auto;
-      margin-left: 1rem;
-    }
-    .search {
-      padding: 0.5rem;
-      cursor: pointer;
-      @include button-hover-effect;
-      border-radius: 50%;
+      /* Стили для img внутри этого блока перенесены выше, в универсальный селектор */
     }
 
-    @media (min-width: $tablet-breakpoint) {
-      display: none;
+    .icon.search {
+      border-radius: 50%;
+      padding: 0.25rem;
+      cursor: pointer;
+      @include button-hover-effect;
+
+      img {
+        width: 30px;
+        height: 30px;
+      }
     }
   }
 
@@ -201,13 +312,12 @@ body {
 
     .menu-item {
       display: block;
-      padding: 0.5rem 1rem;
+      padding: 0.5rem 1.5rem;
       color: $color-secondary;
       text-decoration: none;
       font-size: 1rem;
       transition: $transition-main;
-      margin-left: 1.5rem; // Для отступа текста
-      position: relative; // Для активной линии
+      position: relative;
 
       &:hover {
         color: $color-primary;
@@ -215,7 +325,7 @@ body {
 
       &.active {
         color: $color-tertiary;
-        font-family: 'TT Lakes Medium'; // Более жирный шрифт
+        font-family: 'TT Lakes Medium';
         &:before {
           content: '';
           position: absolute;
@@ -229,27 +339,27 @@ body {
           border-bottom-right-radius: $border-radius-tiny;
         }
       }
-
-      @media (min-width: $tablet-breakpoint) {
-        margin-left: 0;
-        padding-left: 1rem;
+      &:focus {
+        outline: none;
+        box-shadow: inset 0 0 0 2px $color-accent;
       }
     }
   }
 
   .contact-section {
-    padding: 1rem;
+    padding: 1rem 1.5rem;
     border-top: 1px solid $color-border;
+    margin-top: auto;
 
     .social-links {
       display: flex;
       gap: 0.5rem;
       margin-bottom: 1rem;
       img {
+        border-radius: 50%;
         padding: 0.5rem;
         cursor: pointer;
         @include button-hover-effect;
-        border-radius: 50%;
       }
     }
 
@@ -278,38 +388,45 @@ body {
           color: $color-primary;
         }
         &:nth-child(1) {
-          color: $color-tertiary; // Активный язык
+          color: $color-tertiary;
+        }
+        &:focus {
+          outline: none;
+          box-shadow: 0 0 0 2px $color-accent;
+          border-radius: $border-radius-tiny;
         }
       }
     }
-    @media (min-width: $tablet-breakpoint) {
-      padding-left: 1.5rem; // Отступ слева на десктопе
-    }
   }
 }
 
-// Main content wrapper
+// Обёртка основного контента (без изменений)
 .main-content-wrapper {
-  flex-grow: 1; // Занимает оставшееся пространство
-  transition: transform 0.3s ease-in-out; // Для сдвига при открытии меню
+  flex-grow: 1;
+  transition: transform 0.3s ease-in-out;
+  overflow-x: hidden;
 
   @media (max-width: $mobile-breakpoint) {
-    overflow-x: hidden; // Предотвращает горизонтальный скролл при сдвиге
     &--shifted {
-      transform: translateX($sidebar-width); // Сдвиг при открытом меню
+      transform: translateX($sidebar-width);
     }
+  }
+
+  @media (min-width: $tablet-breakpoint) {
+    overflow-x: auto;
   }
 }
 
-// Header styles
+// Стили хедера (без изменений)
 .header {
   background-color: $color-bg-white;
   padding: 1rem;
   border-bottom: 1px solid $color-border;
+  width: 100%;
 
   @media (min-width: $tablet-breakpoint) {
-    padding-left: 1.5rem; // Отступ слева на десктопе
-    border-bottom: none; // Нет нижней границы на десктопе
+    padding-left: 1.5rem;
+    border-bottom: none;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -321,6 +438,7 @@ body {
 
     @media (min-width: $tablet-breakpoint) {
       margin-bottom: 1rem;
+      justify-content: flex-end;
     }
   }
 
@@ -329,21 +447,18 @@ body {
     gap: 0.5rem;
 
     @media (min-width: $tablet-breakpoint) {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      gap: 0;
-      margin-right: auto;
+      display: none;
     }
   }
 
   &__burger-btn {
+    border-radius: 50%;
     background: none;
     border: none;
     cursor: pointer;
     padding: 0.5rem;
     @include button-hover-effect;
-    border-radius: 50%;
+
     @media (min-width: $tablet-breakpoint) {
       display: none;
     }
@@ -351,22 +466,26 @@ body {
 
   &__logo-mobile {
     margin-left: 1rem;
+    /* Стили для img внутри этого блока перенесены выше, в универсальный селектор */
+
     @media (min-width: $tablet-breakpoint) {
       display: none;
     }
   }
 
   &__title-mobile {
+    display: none;
     font-size: 1.5rem;
     margin-right: auto;
     font-family: 'TT Lakes Bold';
+
     @media (min-width: $tablet-breakpoint) {
       display: none;
     }
   }
 
   &__title-desktop {
-    display: none; // Скрыт по умолчанию
+    display: none;
     font-size: 1.5rem;
     font-family: 'TT Lakes Bold';
     color: $color-primary;
@@ -398,49 +517,55 @@ body {
     gap: 0.5rem;
 
     .header__button {
+      border-radius: 50%;
       background: none;
       border: none;
       cursor: pointer;
       padding: 0.5rem;
       @include button-hover-effect;
-      border-radius: 50%;
-      display: flex; // Делаем flex, чтобы текст и иконка были рядом
-      align-items: center;
-      gap: 0.5rem; // Отступ между иконкой и текстом
-      white-space: nowrap; // Предотвращает перенос текста
 
       span {
-        display: none; // Текст скрыт по умолчанию
+        display: none;
         font-family: 'TT Lakes Medium';
         color: $color-primary;
       }
 
       @media (max-width: $mobile-breakpoint) {
-        // Скрываем кнопки "Оставить заявку" и "Статус ремонта" на мобильных
-        &.repair-btn,
-        &.checkstatus-btn {
-          display: none;
+        display: none;
+
+        &--mobile-visible {
+          display: block;
+          span {
+            display: none;
+          }
         }
       }
 
       @media (min-width: $tablet-breakpoint) {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        white-space: nowrap;
         span {
-          display: inline; // Показываем текст
+          display: inline;
         }
-      }
+        &:active {
+          transform: scale(0.95);
+        }
 
-      @media (min-width: $desktop-breakpoint) {
         &.chat-btn,
         &.call-btn {
           display: none;
+        }
+
+        &--mobile-visible {
+          display: flex;
         }
       }
     }
 
     @media (min-width: $tablet-breakpoint) {
-      .chat-btn,
-      .call-btn,
-      .profile-btn {
+      .header__button:not(:first-child) {
         margin-right: 0.5rem;
         position: relative;
         &:before {
@@ -455,9 +580,7 @@ body {
         }
       }
 
-      .chat-btn:first-of-type::before {
-        display: none;
-      }
+      .chat-btn::before,
       .profile-btn::before {
         display: none;
       }
@@ -465,22 +588,22 @@ body {
   }
 
   &__top-nav {
-    display: none; // Скрыта по умолчанию
+    display: none;
 
     @media (min-width: $tablet-breakpoint) {
-      display: block; // Показываем на планшетах и десктопах
+      display: block;
       width: 100%;
-      overflow-x: auto; // Для горизонтальной прокрутки на планшетах
-      -webkit-overflow-scrolling: touch; // Плавная прокрутка на iOS
-      padding-bottom: 0.5rem; // Если есть полоса прокрутки
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      padding-bottom: 0.5rem;
     }
 
     &-list {
       list-style: none;
       display: flex;
       gap: 1.5rem;
-      padding-left: 0; // Сброс стандартного отступа ul
-      white-space: nowrap; // Предотвращает перенос строк
+      padding-left: 0;
+      white-space: nowrap;
     }
 
     &-item {
@@ -488,7 +611,7 @@ body {
       font-size: 1rem;
       color: $color-secondary;
       padding: 0.5rem 0.8rem;
-      border: 1px solid transparent; // Изначально прозрачная рамка
+      border: 1px solid transparent;
       border-radius: $border-radius-tiny;
       cursor: pointer;
       transition: $transition-main;
@@ -502,11 +625,15 @@ body {
         border-color: $color-border;
         color: $color-tertiary;
       }
+      &:focus {
+        outline: none;
+        box-shadow: 0 0 0 2px $color-accent;
+      }
     }
   }
 }
 
-// Main Services Section
+// Секция основных услуг (текст и изображение) (без изменений)
 .main-services-section {
   padding: 1.5rem;
   display: flex;
@@ -532,10 +659,6 @@ body {
     margin-bottom: 1rem;
   }
 
-  #olegMessage {
-    display: none; // Скрыт по умолчанию, JS управляет
-  }
-
   &__read-more {
     background: none;
     border: none;
@@ -556,20 +679,38 @@ body {
     img {
       transition: $transition-transform;
     }
+    &:focus {
+      outline: none;
+      box-shadow: 0 0 0 2px $color-accent;
+      border-radius: $border-radius-tiny;
+    }
   }
 
   &__image {
     flex-basis: 50%;
-    min-width: 0; // Позволяет изображению уменьшаться
+    min-width: 0;
+    @media (max-width: $mobile-breakpoint) {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 1rem;
+    }
+
     img {
       max-width: 100%;
       height: auto;
-      display: block; // Убирает лишние отступы под изображением
-      border-radius: $border-radius; // Закругленные углы
+      display: block;
+      border-radius: $border-radius;
+
+      @media (max-width: $mobile-breakpoint) {
+        max-width: 80%;
+      }
     }
   }
 }
 
+// Общие стили для секций (бренды, типы ремонта, цены) (без изменений)
 .services {
   padding: 1.5rem 0;
 
@@ -581,27 +722,29 @@ body {
     font-weight: normal;
 
     @media (min-width: $tablet-breakpoint) {
-      padding-left: 1rem;
+      padding-left: 1.5rem;
     }
   }
 }
 
+// Секция брендов (без изменений)
 .brands-section {
   .brands-swiper {
     width: 100%;
     height: auto;
     overflow: hidden;
-    padding-bottom: 2rem; // Место для пагинации
+    padding-bottom: 2rem;
     box-sizing: border-box;
+    padding-left: 1rem;
+    padding-right: 1rem;
 
-    // На десктопах, Swiper не должен быть слайдером, а должен быть сеткой
     @media (min-width: $tablet-breakpoint) {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 1rem;
-      overflow: visible; // Позволяет элементам выходить за контейнер
-      padding: 0 1.5rem; // Отступы для грида
-      padding-bottom: 0; // Убираем отступ для пагинации
+      overflow: visible;
+      padding: 0 1.5rem;
+      padding-bottom: 0;
     }
 
     @media (min-width: $desktop-breakpoint) {
@@ -613,35 +756,31 @@ body {
       @media (min-width: $tablet-breakpoint) {
         grid-template-columns: repeat(3, 1fr);
         @media (min-width: $desktop-breakpoint) {
-          grid-template-columns: repeat(
-            4,
-            1fr
-          ); // Пример для десктопов при раскрытии
+          grid-template-columns: repeat(4, 1fr);
         }
         @media (min-width: $large-desktop-breakpoint) {
-          grid-template-columns: repeat(
-            auto-fit,
-            minmax(220px, 1fr)
-          ); // Более адаптивный подход
+          grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        }
+
+        .swiper-slide.services__brands-item--hidden-on-load {
+          display: flex;
         }
       }
     }
 
     .swiper-wrapper {
       @media (min-width: $tablet-breakpoint) {
-        display: contents; // Сбрасываем flex-поведение swiper-wrapper на десктопе
-        // Это позволяет дочерним элементам swiper-slide позиционироваться в гриде родителя
+        display: contents;
       }
     }
 
     .swiper-slide.services__brands-item {
       height: 100%;
-      flex-shrink: 0; // Предотвращаем сжатие
-      width: 20rem; // Задаем ширину для мобильных слайдов
+      flex-shrink: 0;
+      width: 20rem;
       min-width: 20rem;
-      max-width: none; // Сбрасываем max-width
+      max-width: none;
 
-      // Карточка бренда
       background-color: $color-bg-white;
       border: 1px solid $color-border;
       border-radius: $border-radius-small;
@@ -650,29 +789,23 @@ body {
       align-items: center;
       padding: 1rem;
       box-shadow: $shadow-card;
-      transition: $transition-main;
+      @include card-hover;
 
       &:active {
         transform: scale(0.98);
       }
 
-      &:hover {
-        box-shadow: $shadow-hover;
-      }
-
-      // Скрываем лишние элементы на десктопе по умолчанию
       &--hidden-on-load {
         @media (min-width: $tablet-breakpoint) {
-          display: none; // Скрываем по умолчанию на десктопах, JS будет показывать
+          display: none;
         }
       }
 
-      // На десктопах, слайды должны быть частью сетки, без фиксированной ширины
       @media (min-width: $tablet-breakpoint) {
-        width: auto; // Сбрасываем фиксированную ширину
+        width: auto;
         min-width: 0;
         max-width: none;
-        display: flex; // Убедимся, что все слайды видимы
+        display: flex;
       }
 
       .services__brands-link {
@@ -690,21 +823,24 @@ body {
       }
 
       .services__brands-arrow {
+        border-radius: 50%;
         width: 2rem;
         height: 2rem;
-        background-color: $color-accent;
-        border-radius: 50%;
         padding: 0.5rem;
         transition: $transition-main;
 
         &:active {
           transform: scale(0.9);
         }
+        &:focus {
+          outline: none;
+          box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.7),
+            0 0 0 4px $color-accent;
+        }
       }
     }
   }
 
-  // Swiper pagination styles
   .swiper-pagination.brands-pagination {
     position: absolute;
     bottom: 0;
@@ -713,36 +849,39 @@ body {
     width: auto;
     text-align: center;
     margin-top: 1rem;
-    display: block; // Показываем на мобильных
+    display: block;
 
     @media (min-width: $tablet-breakpoint) {
-      display: none; // Скрываем на планшетах и десктопах
+      display: none;
     }
 
     .swiper-pagination-bullet {
-      background-color: $color-tertiary; // Цвет точек
+      border-radius: 50%;
+      background-color: $color-tertiary;
       opacity: 0.5;
       width: 0.5rem;
       height: 0.5rem;
       margin: 0 0.25rem;
       transition: opacity 0.3s, background-color 0.3s;
-      border-radius: 50%;
 
       &-active {
-        background-color: $color-accent; // Активная точка
+        background-color: $color-accent;
         opacity: 1;
+      }
+      &:focus {
+        outline: none;
+        box-shadow: 0 0 0 2px $color-accent;
       }
     }
   }
 
-  // Кнопка "Показать все"
   .services__toggle-btn {
-    display: none; // Скрываем по умолчанию (на мобильных)
-    margin-top: 1rem; // Отступ сверху
-    margin-left: 1rem; // Отступ слева
+    display: none;
 
     @media (min-width: $tablet-breakpoint) {
-      display: flex; // Показываем на планшетах и десктопах
+      display: flex;
+      margin-top: 1rem;
+      margin-left: 1.5rem;
       font-size: 1rem;
       color: $color-secondary;
       background: transparent;
@@ -757,6 +896,11 @@ body {
       &:hover {
         color: $color-accent;
       }
+      &:focus {
+        outline: none;
+        box-shadow: 0 0 0 2px $color-accent;
+        border-radius: $border-radius-tiny;
+      }
     }
 
     .services__toggle-icon {
@@ -765,7 +909,7 @@ body {
   }
 }
 
-// Repair types section styles
+// Секция типов ремонта (без изменений)
 .repair-types-section {
   padding: 1.5rem 0;
   margin-bottom: 1.875rem;
@@ -777,27 +921,29 @@ body {
     @include text-uppercase;
     font-weight: normal;
     @media (min-width: $tablet-breakpoint) {
-      padding-left: 1rem;
+      padding-left: 1.5rem;
     }
   }
 
-  // Общий контейнер для Swiper
   .repair-types-swiper {
     width: 100%;
     height: auto;
     overflow: hidden;
-    padding-bottom: 2rem; // Место для пагинации
+    padding-bottom: 2rem;
     box-sizing: border-box;
+    padding-left: 1rem;
+    padding-right: 1rem;
 
-    display: block; // По умолчанию на мобильных это Swiper
+    display: block;
 
     @media (min-width: $tablet-breakpoint) {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 1rem;
       overflow: visible;
-      padding: 0 1.5rem; // Отступы для грида
-      padding-bottom: 0; // Убираем отступ для пагинации
+      padding: 0 1.5rem;
+      padding-bottom: 0;
+      height: auto;
     }
 
     @media (min-width: $desktop-breakpoint) {
@@ -807,18 +953,17 @@ body {
 
     .swiper-wrapper.cards-container {
       @media (min-width: $tablet-breakpoint) {
-        display: contents; // Сбрасываем flex-поведение swiper-wrapper
+        display: contents;
       }
     }
 
     .swiper-slide.card {
-      height: 100%; // Чтобы карточка растягивалась на всю высоту
+      height: 100%;
       flex-shrink: 0;
-      width: 21.875rem; // Задаем ширину для мобильных слайдов
+      width: 21.875rem;
       min-width: 21.875rem;
       max-width: none;
 
-      // Карточка типа ремонта
       background-color: $color-bg-white;
       border: 1px solid $color-border;
       border-radius: $border-radius-small;
@@ -828,11 +973,7 @@ body {
       align-items: flex-start;
       padding: 1rem;
       box-shadow: $shadow-card;
-      transition: $transition-main;
-
-      &:hover {
-        box-shadow: $shadow-hover;
-      }
+      @include card-hover;
 
       .card-title {
         font-family: 'TT Lakes Medium';
@@ -842,38 +983,33 @@ body {
       }
 
       .go-button {
-        background: $color-accent;
-        border: none;
         border-radius: 50%;
+        background: none;
+        border: none;
         width: 2.5rem;
         height: 2.5rem;
-        @include flex-center;
         cursor: pointer;
         transition: $transition-main;
 
         &:active {
           transform: scale(0.9);
         }
+        &:focus {
+          outline: none;
+          box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.7),
+            0 0 0 4px $color-accent;
+        }
       }
 
-      // На десктопах, слайды должны быть частью сетки, без фиксированной ширины
       @media (min-width: $tablet-breakpoint) {
-        width: auto; // Сбрасываем фиксированную ширину
+        width: auto;
         min-width: 0;
         max-width: none;
-        display: flex; // Убедимся, что все слайды видимы
-      }
-
-      // Класс для скрытия на десктопе по умолчанию, показывается через JS
-      &.repair-types-item--hidden-on-load {
-        @media (min-width: $tablet-breakpoint) {
-          display: none;
-        }
+        display: flex;
       }
     }
   }
 
-  // Swiper pagination styles
   .swiper-pagination.repair-types-pagination {
     position: absolute;
     bottom: 0;
@@ -882,36 +1018,39 @@ body {
     width: auto;
     text-align: center;
     margin-top: 1rem;
-    display: block; // Показываем на мобильных
+    display: block;
 
     @media (min-width: $tablet-breakpoint) {
-      display: none; // Скрываем на планшетах и десктопах
+      display: none;
     }
 
     .swiper-pagination-bullet {
+      border-radius: 50%;
       background-color: $color-tertiary;
       opacity: 0.5;
       width: 0.5rem;
       height: 0.5rem;
       margin: 0 0.25rem;
       transition: opacity 0.3s, background-color 0.3s;
-      border-radius: 50%;
 
       &-active {
         background-color: $color-accent;
         opacity: 1;
       }
+      &:focus {
+        outline: none;
+        box-shadow: 0 0 0 2px $color-accent;
+      }
     }
   }
 
-  // Теперь ваша кнопка "Показать все"
   .show-all {
-    display: none; // Скрываем по умолчанию (на мобильных)
-    margin-top: 1rem;
-    margin-left: 1rem;
+    display: none;
 
     @media (min-width: $tablet-breakpoint) {
-      display: flex; // Показываем на планшетах и десктопах
+      display: flex;
+      margin-top: 1rem;
+      margin-left: 1.5rem;
       font-size: 1rem;
       color: $color-secondary;
       background: transparent;
@@ -926,15 +1065,20 @@ body {
       &:hover {
         color: $color-accent;
       }
+      &:focus {
+        outline: none;
+        box-shadow: 0 0 0 2px $color-accent;
+        border-radius: $border-radius-tiny;
+      }
     }
 
-    &__icon {
+    .show-all__icon {
       transition: $transition-transform;
     }
   }
 }
 
-// Pricing Section
+// Секция цен (без изменений)
 .pricing-section {
   padding: 1.5rem 0;
   margin-bottom: 1.875rem;
@@ -946,26 +1090,25 @@ body {
     @include text-uppercase;
     font-weight: normal;
     @media (min-width: $tablet-breakpoint) {
-      padding-left: 1rem;
+      padding-left: 1.5rem;
     }
   }
 
-  // Контейнер таблицы на десктопе
   .pricing-container--desktop {
     background: $color-bg-white;
     border-radius: $border-radius-small;
     overflow: hidden;
     box-shadow: $shadow-card;
     border: 1px solid $color-border;
-    margin: 0 1.5rem; // Отступы для десктопа
+    margin: 0 1.5rem;
 
     @media (max-width: $mobile-breakpoint) {
-      display: none; // Скрываем на мобильных, так как будет Swiper
+      display: none;
     }
   }
 
   .pricing-header {
-    @include grid-layout(2fr 1fr 1fr 150px);
+    @include grid-layout(2fr 1fr 1fr 150px, 20px);
     padding: 1.25rem;
     background: $color-bg-gray;
     border-bottom: 1px solid $color-border;
@@ -975,54 +1118,20 @@ body {
     font-size: 0.9rem;
   }
 
-  // Swiper контейнер для элементов цен (ТОЛЬКО для мобильных)
-  .pricing-swiper {
-    width: 100%;
-    height: auto;
-    overflow: hidden;
-    padding-bottom: 2rem;
-    box-sizing: border-box;
-    display: block; // По умолчанию на мобильных это Swiper
-    padding-left: 1rem; // Начальный отступ для первого слайда
-    padding-right: 1rem; // Отступ для последнего слайда
-
-    // На десктопе, скрываем Swiper-контейнер, чтобы показать обычную таблицу
-    @media (min-width: $tablet-breakpoint) {
-      display: none; // Полностью скрываем Swiper на десктопе
-    }
-
-    .swiper-wrapper {
-      // Swiper автоматически задает display: flex и flex-direction: row
-    }
-
-    .swiper-slide.pricing-item {
-      height: auto;
-      flex-shrink: 0;
-      width: 22.5rem; // Задаем ширину для мобильных слайдов
-      min-width: 22.5rem;
-      max-width: none;
-      background: $color-bg-white;
-      border: 1px solid #e0e0e0;
-      border-radius: $border-radius-small;
-      // margin-bottom: 0.9375rem; // Отступ между слайдами теперь контролируется spaceBetween Swiper
-    }
-  }
-
-  // Стили для pricing-item (применяются как к слайдам, так и к десктопным элементам)
   .pricing-item {
     @media (min-width: $tablet-breakpoint) {
-      @include grid-layout(2fr 1fr 1fr 150px);
+      @include grid-layout(2fr 1fr 1fr 150px, 20px);
       align-items: center;
       padding: 1.25rem;
       border-bottom: 1px solid $color-border-light;
       transition: $transition-main;
 
-      &:hover {
-        background: $color-hover-bg;
-      }
-
       &:last-child {
         border-bottom: none;
+      }
+      &:focus-within {
+        outline: none;
+        box-shadow: 0 0 0 2px $color-accent;
       }
     }
 
@@ -1032,9 +1141,11 @@ body {
       align-items: flex-start;
       gap: 0.625rem;
       text-align: left;
-      padding: 1rem; // Немного меньше паддинг на мобильных для слайдов
-      // border, border-radius, background уже на .swiper-slide.pricing-item
-      // margin-bottom уже на .swiper-slide.pricing-item
+      padding: 1rem;
+      &:focus-within {
+        outline: none;
+        box-shadow: 0 0 0 2px $color-accent;
+      }
     }
 
     .service-name {
@@ -1059,12 +1170,11 @@ body {
       @include flex-center;
       @media (max-width: $mobile-breakpoint) {
         width: 100%;
-        justify-content: flex-end; // Прижимаем кнопку вправо
+        justify-content: flex-end;
       }
     }
 
     .order-btn {
-      background: $color-accent;
       border: none;
       border-radius: $border-radius-medium;
       color: $color-bg-white;
@@ -1083,14 +1193,13 @@ body {
       &:active {
         transform: scale(0.98);
       }
-      img {
-        width: 1.5rem;
-        height: 1.5rem;
+      &:focus {
+        outline: none;
+        box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.7), 0 0 0 4px $color-accent;
       }
     }
   }
 
-  // Swiper pagination styles для цен
   .swiper-pagination.pricing-pagination {
     position: absolute;
     bottom: 0;
@@ -1099,31 +1208,35 @@ body {
     width: auto;
     text-align: center;
     margin-top: 1rem;
-    display: block; // Показываем на мобильных
+    display: block;
 
     @media (min-width: $tablet-breakpoint) {
-      display: none; // Скрываем на планшетах и десктопах
+      display: none;
     }
 
     .swiper-pagination-bullet {
+      border-radius: 50%;
       background-color: $color-tertiary;
       opacity: 0.5;
       width: 0.5rem;
       height: 0.5rem;
       margin: 0 0.25rem;
       transition: opacity 0.3s, background-color 0.3s;
-      border-radius: 50%;
 
       &-active {
         background-color: $color-accent;
         opacity: 1;
+      }
+      &:focus {
+        outline: none;
+        box-shadow: 0 0 0 2px $color-accent;
       }
     }
   }
 
   .pricing-info {
     margin-top: 1.5rem;
-    padding: 0 1.5rem; // Отступы
+    padding: 0 1.5rem;
     font-size: 0.875rem;
     color: $color-primary;
 
@@ -1145,17 +1258,22 @@ body {
       &:hover {
         color: $color-accent;
       }
+      &:focus {
+        outline: none;
+        box-shadow: 0 0 0 2px $color-accent;
+        border-radius: $border-radius-tiny;
+      }
 
       .offer-arrow {
-        width: 1.5rem;
-        height: 1.5rem;
+        width: 10px;
+        height: 10px;
         transition: $transition-transform;
       }
     }
   }
 }
 
-// Footer styles
+// Стили футера (без изменений)
 .footer {
   background-color: $color-bg-light;
   padding: 1.5rem;

@@ -17,17 +17,31 @@
   </head>
   <body>
     <aside class="sidebar-menu" id="sidebarMenu">
-      <div class="menu-header">
+      <div class="sidebar-logo-container">
+        <img
+          src="./img/Group.png"
+          alt="Логотип CPS"
+          class="sidebar-main-logo"
+        />
+        <img
+          src="./img/search.png"
+          alt="Поиск"
+          class="sidebar-header-search-icon"
+        />
+      </div>
+
+      <div class="menu-header-mobile">
         <button class="close" id="closeMenuBtn">
-          <img src="/img/burger.png" alt="Закрыть меню" />
+          <img src="./img/burger.png" alt="Закрыть меню" />
         </button>
         <div class="logo">
-          <img src="/img/Group.png" alt="Логотип CPS" />
+          <img src="./img/Group.png" alt="Логотип CPS" />
         </div>
         <div class="icon search">
-          <img src="/img/search.png" alt="Поиск" />
+          <img src="./img/search.png" alt="Поиск" />
         </div>
       </div>
+
       <nav class="menu-items">
         <a href="#" class="menu-item active">Ремонт техники</a>
         <a href="#" class="menu-item">Услуги и сервисы</a>
@@ -40,12 +54,12 @@
       </nav>
       <div class="contact-section">
         <div class="social-links">
-          <img src="/img/call.png" alt="Позвонить" />
-          <img src="/img/chat.png" alt="Чат" />
-          <img src="/img/profile.png" alt="Профиль" />
+          <img src="./img/chat copy.png" alt="Позвонить" />
+          <img src="./img/chat.png" alt="Чат" />
+          <img src="./img/profile.png" alt="Профиль" />
         </div>
         <div class="contact-info">
-          <span>cps@gmail.com</span>
+          <span>mail@cps.com</span>
           <h1>8 800 890 8900</h1>
         </div>
         <div class="language-selector">
@@ -61,32 +75,31 @@
         <div class="header__top">
           <div class="header__left">
             <button class="header__burger-btn" id="openMenuBtn">
-              <img src="/img/burger.png" alt="Открыть меню" />
+              <img src="./img/pumber.png" alt="Открыть меню" />
             </button>
             <div class="header__logo-mobile">
-              <img src="/img/Group.png" alt="Логотип CPS" />
+              <img src="./img/Group.png" alt="Логотип CPS" />
             </div>
           </div>
 
-          <h1 class="header__title-mobile">Услуги и сервисы</h1>
-
           <div class="header__actions">
             <button class="header__button chat-btn">
-              <img src="/img/chat.png" alt="Чат" />
+              <img src="./img/chat.png" alt="Чат" />
             </button>
             <button class="header__button call-btn">
-              <img src="/img/call.png" alt="Позвонить" />
-            </button>
-            <button class="header__button profile-btn">
-              <img src="/img/profile.png" alt="Профиль" />
+              <img src="./img/call.png" alt="Позвонить" />
             </button>
 
-            <button class="header__button repair-btn">
-              <img src="/img/repair.png" alt="Оставить заявку" />
+            <button
+              class="header__button repair-btn header__button--mobile-visible"
+            >
+              <img src="./img/repair.png" alt="Оставить заявку" />
               <span>Оставить заявку</span>
             </button>
-            <button class="header__button checkstatus-btn">
-              <img src="/img/checkstatus.png" alt="Статус ремонта" />
+            <button
+              class="header__button checkstatus-btn header__button--mobile-visible"
+            >
+              <img src="./img/checkstatus.png" alt="Статус ремонта" />
               <span>Статус ремонта</span>
             </button>
           </div>
@@ -99,7 +112,6 @@
             <li class="header__top-nav-item header__top-nav-item--active">
               Ремонтируемые бренды
             </li>
-            <li class="header__top-nav-item">Ремонтируемые устройства</li>
             <li class="header__top-nav-item">Дополнительные услуги</li>
             <li class="header__top-nav-item">Цены на услуги</li>
             <li class="header__top-nav-item">Адреса сервисных центров</li>
@@ -114,11 +126,9 @@
           <p class="main-services__description">
             Мы являемся авторизованным сервисным центром по ремонту техники
             Dell. Только у нас вы можете отремонтировать свой ноутбук Dell с
-            гарантией производителя.
-            <br /><br />
-            Мы успешно работаем с 1992 года и заслужили репутацию надежного
-            партнера. Мы гордимся тем, что нашими услугами пользуются миллионы
-            людей по всему миру.
+            гарантией производителя. Мы успешно работаем с 1992 года и заслужили
+            репутацию надежного партнера. Мы гордимся тем, что нашими услугами
+            пользуются миллионы людей по всему миру.
             <span id="olegMessage"
               ><br /><br />Мы успешно работаем с 1992 года и заслужили репутацию
               надежного партнера. Мы гордимся тем, что нашими услугами
@@ -126,12 +136,12 @@
             >
           </p>
           <button class="main-services__read-more" id="readMoreButton">
-            <img src="/img/expand.png" alt="Читать дальше" />
+            <img src="./img/expand.png" alt="Читать дальше" />
             <span>Читать дальше</span>
           </button>
         </div>
         <div class="main-services__image">
-          <img src="/img/hero-image.jpg" alt="Ремонт техники" />
+          <img src="./img/logo.png" alt="Ремонт техники" />
         </div>
       </section>
 
@@ -145,12 +155,12 @@
             <div class="swiper-slide services__brands-item">
               <a href="#" class="services__brands-link">
                 <img
-                  src="/img/lenovo.png"
+                  src="./img/lenovo.png"
                   alt="Lenovo"
                   class="services__brands-logo"
                 />
                 <img
-                  src="/img/go.png"
+                  src="./img/go.png"
                   alt="Перейти"
                   class="services__brands-arrow"
                 />
@@ -159,12 +169,12 @@
             <div class="swiper-slide services__brands-item">
               <a href="#" class="services__brands-link">
                 <img
-                  src="/img/samsung.png"
+                  src="./img/samsung.png"
                   alt="Samsung"
                   class="services__brands-logo"
                 />
                 <img
-                  src="/img/go.png"
+                  src="./img/go.png"
                   alt="Перейти"
                   class="services__brands-arrow"
                 />
@@ -173,12 +183,12 @@
             <div class="swiper-slide services__brands-item">
               <a href="#" class="services__brands-link">
                 <img
-                  src="/img/apple.png"
+                  src="./img/apple.png"
                   alt="Apple"
                   class="services__brands-logo"
                 />
                 <img
-                  src="/img/go.png"
+                  src="./img/go.png"
                   alt="Перейти"
                   class="services__brands-arrow"
                 />
@@ -187,12 +197,12 @@
             <div class="swiper-slide services__brands-item">
               <a href="#" class="services__brands-link">
                 <img
-                  src="/img/viewsonic.png"
+                  src="./img/viewsonic.png"
                   alt="ViewSonic"
                   class="services__brands-logo"
                 />
                 <img
-                  src="/img/go.png"
+                  src="./img/go.png"
                   alt="Перейти"
                   class="services__brands-arrow"
                 />
@@ -201,22 +211,12 @@
             <div class="swiper-slide services__brands-item">
               <a href="#" class="services__brands-link">
                 <img
-                  src="/img/bosch.png"
+                  src="./img/bosch.png"
                   alt="Bosch"
                   class="services__brands-logo"
                 />
                 <img
-                  src="/img/go.png"
-                  alt="Перейти"
-                  class="services__brands-arrow"
-                />
-              </a>
-            </div>
-            <div class="swiper-slide services__brands-item">
-              <a href="#" class="services__brands-link">
-                <img src="/img/hp.png" alt="HP" class="services__brands-logo" />
-                <img
-                  src="/img/go.png"
+                  src="./img/go.png"
                   alt="Перейти"
                   class="services__brands-arrow"
                 />
@@ -225,12 +225,26 @@
             <div class="swiper-slide services__brands-item">
               <a href="#" class="services__brands-link">
                 <img
-                  src="/img/acer.png"
+                  src="./img/hp.png"
+                  alt="HP"
+                  class="services__brands-logo"
+                />
+                <img
+                  src="./img/go.png"
+                  alt="Перейти"
+                  class="services__brands-arrow"
+                />
+              </a>
+            </div>
+            <div class="swiper-slide services__brands-item">
+              <a href="#" class="services__brands-link">
+                <img
+                  src="./img/acer.png"
                   alt="Acer"
                   class="services__brands-logo"
                 />
                 <img
-                  src="/img/go.png"
+                  src="./img/go.png"
                   alt="Перейти"
                   class="services__brands-arrow"
                 />
@@ -239,12 +253,12 @@
             <div class="swiper-slide services__brands-item">
               <a href="#" class="services__brands-link">
                 <img
-                  src="/img/sony.png"
+                  src="./img/sony.png"
                   alt="Sony"
                   class="services__brands-logo"
                 />
                 <img
-                  src="/img/go.png"
+                  src="./img/go.png"
                   alt="Перейти"
                   class="services__brands-arrow"
                 />
@@ -256,12 +270,12 @@
             >
               <a href="#" class="services__brands-link">
                 <img
-                  src="/img/lenovo.png"
+                  src="./img/lenovo.png"
                   alt="Lenovo"
                   class="services__brands-logo"
                 />
                 <img
-                  src="/img/go.png"
+                  src="./img/go.png"
                   alt="Перейти"
                   class="services__brands-arrow"
                 />
@@ -272,12 +286,12 @@
             >
               <a href="#" class="services__brands-link">
                 <img
-                  src="/img/samsung.png"
+                  src="./img/samsung.png"
                   alt="Samsung"
                   class="services__brands-logo"
                 />
                 <img
-                  src="/img/go.png"
+                  src="./img/go.png"
                   alt="Перейти"
                   class="services__brands-arrow"
                 />
@@ -288,12 +302,12 @@
             >
               <a href="#" class="services__brands-link">
                 <img
-                  src="/img/apple.png"
+                  src="./img/apple.png"
                   alt="Apple"
                   class="services__brands-logo"
                 />
                 <img
-                  src="/img/go.png"
+                  src="./img/go.png"
                   alt="Перейти"
                   class="services__brands-arrow"
                 />
@@ -304,7 +318,7 @@
         </div>
 
         <button class="services__toggle-btn" type="button" id="toggleBrandsBtn">
-          <img src="/img/expand.png" alt="" class="services__toggle-icon" />
+          <img src="./img/expand.png" alt="" class="services__toggle-icon" />
           <span class="services__toggle-text">Показать все</span>
         </button>
       </section>
@@ -316,49 +330,73 @@
             <div class="swiper-slide card">
               <h3 class="card-title">Ремонт ноутбуков</h3>
               <button class="go-button">
-                <img src="/img/go.png" alt="Перейти" />
+                <img src="./img/go.png" alt="Перейти" />
               </button>
             </div>
             <div class="swiper-slide card">
               <h3 class="card-title">Ремонт планшетов</h3>
               <button class="go-button">
-                <img src="/img/go.png" alt="Перейти" />
+                <img src="./img/go.png" alt="Перейти" />
               </button>
             </div>
             <div class="swiper-slide card">
               <h3 class="card-title">Ремонт ПК</h3>
               <button class="go-button">
-                <img src="/img/go.png" alt="Перейти" />
+                <img src="./img/go.png" alt="Перейти" />
               </button>
             </div>
             <div class="swiper-slide card">
               <h3 class="card-title">Ремонт мониторов</h3>
               <button class="go-button">
-                <img src="/img/go.png" alt="Перейти" />
+                <img src="./img/go.png" alt="Перейти" />
               </button>
             </div>
-            <div class="swiper-slide card repair-types-item--hidden-on-load">
+            <div class="swiper-slide card">
               <h3 class="card-title">Ремонт телевизоров</h3>
               <button class="go-button">
-                <img src="/img/go.png" alt="Перейти" />
+                <img src="./img/go.png" alt="Перейти" />
               </button>
             </div>
-            <div class="swiper-slide card repair-types-item--hidden-on-load">
+            <div class="swiper-slide card">
               <h3 class="card-title">Ремонт принтеров</h3>
               <button class="go-button">
-                <img src="/img/go.png" alt="Перейти" />
+                <img src="./img/go.png" alt="Перейти" />
               </button>
             </div>
-            <div class="swiper-slide card repair-types-item--hidden-on-load">
+            <div class="swiper-slide card">
               <h3 class="card-title">Ремонт смартфонов</h3>
               <button class="go-button">
-                <img src="/img/go.png" alt="Перейти" />
+                <img src="./img/go.png" alt="Перейти" />
               </button>
             </div>
-            <div class="swiper-slide card repair-types-item--hidden-on-load">
+            <div class="swiper-slide card">
               <h3 class="card-title">Ремонт холодильников</h3>
               <button class="go-button">
-                <img src="/img/go.png" alt="Перейти" />
+                <img src="./img/go.png" alt="Перейти" />
+              </button>
+            </div>
+            <div class="swiper-slide card">
+              <h3 class="card-title">Ремонт бытовой техники</h3>
+              <button class="go-button">
+                <img src="./img/go.png" alt="Перейти" />
+              </button>
+            </div>
+            <div class="swiper-slide card">
+              <h3 class="card-title">Ремонт аудиотехники</h3>
+              <button class="go-button">
+                <img src="./img/go.png" alt="Перейти" />
+              </button>
+            </div>
+            <div class="swiper-slide card">
+              <h3 class="card-title">Ремонт игровых консолей</h3>
+              <button class="go-button">
+                <img src="./img/go.png" alt="Перейти" />
+              </button>
+            </div>
+            <div class="swiper-slide card">
+              <h3 class="card-title">Ремонт медицинского оборудования</h3>
+              <button class="go-button">
+                <img src="./img/go.png" alt="Перейти" />
               </button>
             </div>
           </div>
@@ -366,7 +404,7 @@
         </div>
         <div class="show-all" id="toggleRepairTypesBtn">
           <img
-            src="/img/expand.png"
+            src="./img/expand.png"
             alt="Показать все"
             class="show-all__icon"
             id="toggleRepairTypesIcon"
@@ -377,7 +415,7 @@
 
       <section class="pricing-section">
         <h2 class="section-title">Цены на услуги</h2>
-        <div class="pricing-container pricing-container--desktop">
+        <div class="pricing-container--desktop">
           <div class="pricing-header">
             <span>Ремонтные услуги</span>
             <span>Цена</span>
@@ -387,50 +425,52 @@
           <div class="pricing-item">
             <span class="service-name">Диагностика</span>
             <span class="service-price">Бесплатно</span>
-            <span class="service-time">30 мин</span>
+            <span class="service-time">30-120 мин</span>
             <div class="service-action">
               <button class="order-btn">
-                <img src="/img/go.png" alt="Заказать" />
+                <img src="./img/zakaz.png" alt="Заказать" />
               </button>
             </div>
           </div>
           <div class="pricing-item">
             <span class="service-name">Замена дисплея</span>
-            <span class="service-price">от 1 500 ₽</span>
+            <span class="service-price">1 000 ₽</span>
             <span class="service-time">30-120 мин</span>
             <div class="service-action">
               <button class="order-btn">
-                <img src="/img/go.png" alt="Заказать" />
+                <img src="./img/zakaz.png" alt="Заказать" />
               </button>
             </div>
           </div>
           <div class="pricing-item">
             <span class="service-name">Замена полифонического динамика</span>
-            <span class="service-price">от 1 000 ₽</span>
+            <span class="service-price">1 000 ₽</span>
             <span class="service-time">30-120 мин</span>
             <div class="service-action">
               <button class="order-btn">
-                <img src="/img/go.png" alt="Заказать" />
+                <img src="./img/zakaz.png" alt="Заказать" />
               </button>
             </div>
           </div>
           <div class="pricing-item">
-            <span class="service-name">Тестирование</span>
-            <span class="service-price">Бесплатно</span>
-            <span class="service-time">30 мин</span>
+            <span class="service-name"
+              >Тестирование с выдачей технического заключения</span
+            >
+            <span class="service-price">1 000 ₽</span>
+            <span class="service-time">30-120 мин</span>
             <div class="service-action">
               <button class="order-btn">
-                <img src="/img/go.png" alt="Заказать" />
+                <img src="./img/zakaz.png" alt="Заказать" />
               </button>
             </div>
           </div>
           <div class="pricing-item">
             <span class="service-name">Замена программного обеспечения</span>
-            <span class="service-price">от 1 000 ₽</span>
+            <span class="service-price">1 000 ₽</span>
             <span class="service-time">30-120 мин</span>
             <div class="service-action">
               <button class="order-btn">
-                <img src="/img/go.png" alt="Заказать" />
+                <img src="./img/zakaz.png" alt="Заказать" />
               </button>
             </div>
           </div>
@@ -440,21 +480,21 @@
           <div class="swiper-wrapper">
             <div class="swiper-slide pricing-item">
               <span class="service-name">Диагностика</span>
-              <span class="service-price">Бесплатно</span>
-              <span class="service-time">30 мин</span>
+              <span class="service-price">1 000 ₽</span>
+              <span class="service-time">30-120мин</span>
               <div class="service-action">
                 <button class="order-btn">
-                  <img src="/img/go.png" alt="Заказать" />
+                  <img src="./img/zakaz.png" alt="Заказать" />
                 </button>
               </div>
             </div>
             <div class="swiper-slide pricing-item">
               <span class="service-name">Замена дисплея</span>
-              <span class="service-price">от 1 500 ₽</span>
+              <span class="service-price">1 000 ₽</span>
               <span class="service-time">30-120 мин</span>
               <div class="service-action">
                 <button class="order-btn">
-                  <img src="/img/go.png" alt="Заказать" />
+                  <img src="./img/zakaz.png" alt="Заказать" />
                 </button>
               </div>
             </div>
@@ -464,17 +504,17 @@
               <span class="service-time">30-120 мин</span>
               <div class="service-action">
                 <button class="order-btn">
-                  <img src="/img/go.png" alt="Заказать" />
+                  <img src="./img/zakaz.png" alt="Заказать" />
                 </button>
               </div>
             </div>
             <div class="swiper-slide pricing-item">
               <span class="service-name">Тестирование</span>
-              <span class="service-price">Бесплатно</span>
-              <span class="service-time">30 мин</span>
+              <span class="service-price">от 1 000 ₽</span>
+              <span class="service-time">30-120 мин</span>
               <div class="service-action">
                 <button class="order-btn">
-                  <img src="/img/go.png" alt="Заказать" />
+                  <img src="./img/go.png" alt="Заказать" />
                 </button>
               </div>
             </div>
@@ -484,7 +524,7 @@
               <span class="service-time">30-120 мин</span>
               <div class="service-action">
                 <button class="order-btn">
-                  <img src="/img/go.png" alt="Заказать" />
+                  <img src="./img/zakaz.png" alt="Заказать" />
                 </button>
               </div>
             </div>
@@ -494,12 +534,13 @@
 
         <div class="pricing-info">
           <p>
-            Все цены указаны с учетом НДС. Стоимость ремонта указана за работу,
-            без учета стоимости запчастей.
+            Все цены указаны с учетом НДС. Стоимость ремонта указана за
+            единичную услугу.Для получения коммерческого предложения на
+            постоянное обслуживание,оставьте заявку
           </p>
           <a href="#" class="commercial-offer"
-            >Ознакомиться с полным прайс-листом
-            <img src="/img/Dropdown.png" alt="" class="offer-arrow"
+            >Получить коммерческое предложение
+            <img src="./img/Line.png" alt="" class="offer-arrow"
           /></a>
         </div>
       </section>
@@ -507,15 +548,18 @@
       <footer class="footer">
         <div class="footer-left">
           <p>
-            © 2024 CPS<br />
-            Разработано и спроектировано в Ametov Group
+            © 2019 CPS<br />
+            Разработано командой Apesong
           </p>
         </div>
         <div class="footer-center">
           <p>Политика конфиденциальности</p>
         </div>
         <div class="footer-right">
-          <p>Информация носит исключительно ознакомительный характер</p>
+          <p
+            >Информация,размещенная на данной странице,не является публичной
+            офертой</p
+          >
         </div>
       </footer>
     </div>
