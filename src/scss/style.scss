@@ -147,6 +147,7 @@ body {
   min-height: 100vh;
   overflow-x: hidden;
 
+  // Теперь overflow-x: auto и overflow-y: auto для планшетов и десктопов
   @media (min-width: $tablet-breakpoint) {
     overflow-x: auto;
     overflow-y: auto;
@@ -176,6 +177,7 @@ body {
     left: 0;
   }
 
+  // Для планшетов и десктопов (min-width)
   @media (min-width: $tablet-breakpoint) {
     position: static;
     width: $sidebar-width;
@@ -191,6 +193,7 @@ body {
     border-bottom: 1px solid $color-border-light;
     display: none;
 
+    // Для планшетов и десктопов (min-width)
     @media (min-width: $tablet-breakpoint) {
       display: flex;
       align-items: center;
@@ -214,7 +217,7 @@ body {
     /* Контроль размеров на разных брейкпоинтах */
     /* Важно: эти значения будут переопределять 'width: auto' на заданных брейкпоинтах */
 
-    // Базовые стили для всех мобильных (от 0 до 479px)
+    // Базовые стили для всех мобильных (по умолчанию, т.е. до первого min-width)
     max-width: 90px;
     min-width: 45px; // Убедимся, что лого не становится слишком маленьким
 
@@ -270,6 +273,7 @@ body {
     border-bottom: 1px solid $color-border;
     width: 100%;
 
+    // Для планшетов и десктопов (min-width)
     @media (min-width: $tablet-breakpoint) {
       display: none;
     }
@@ -400,30 +404,33 @@ body {
   }
 }
 
-// Обёртка основного контента (без изменений)
+// Обёртка основного контента
 .main-content-wrapper {
   flex-grow: 1;
   transition: transform 0.3s ease-in-out;
   overflow-x: hidden;
 
+  // Для мобильных (max-width)
   @media (max-width: $mobile-breakpoint) {
     &--shifted {
       transform: translateX($sidebar-width);
     }
   }
 
+  // Для планшетов и десктопов (min-width)
   @media (min-width: $tablet-breakpoint) {
     overflow-x: auto;
   }
 }
 
-// Стили хедера (без изменений)
+// Стили хедера
 .header {
   background-color: $color-bg-white;
   padding: 1rem;
   border-bottom: 1px solid $color-border;
   width: 100%;
 
+  // Для планшетов и десктопов (min-width)
   @media (min-width: $tablet-breakpoint) {
     padding-left: 1.5rem;
     border-bottom: none;
@@ -436,6 +443,7 @@ body {
     @include flex-between;
     width: 100%;
 
+    // Для планшетов и десктопов (min-width)
     @media (min-width: $tablet-breakpoint) {
       margin-bottom: 1rem;
       justify-content: flex-end;
@@ -446,6 +454,7 @@ body {
     @include flex-center;
     gap: 0.5rem;
 
+    // Для планшетов и десктопов (min-width)
     @media (min-width: $tablet-breakpoint) {
       display: none;
     }
@@ -459,6 +468,7 @@ body {
     padding: 0.5rem;
     @include button-hover-effect;
 
+    // Для планшетов и десктопов (min-width)
     @media (min-width: $tablet-breakpoint) {
       display: none;
     }
@@ -468,17 +478,23 @@ body {
     margin-left: 1rem;
     /* Стили для img внутри этого блока перенесены выше, в универсальный селектор */
 
+    // Для планшетов и десктопов (min-width)
     @media (min-width: $tablet-breakpoint) {
       display: none;
     }
   }
 
   &__title-mobile {
-    display: none;
+    display: none; // По умолчанию скрыт для мобильных
     font-size: 1.5rem;
     margin-right: auto;
     font-family: 'TT Lakes Bold';
 
+    // Для мобильных (max-width) - показать заголовок только там
+    @media (max-width: $mobile-breakpoint) {
+      display: block; // Теперь заголовок будет виден на мобильных
+    }
+    // Для планшетов и десктопов (min-width)
     @media (min-width: $tablet-breakpoint) {
       display: none;
     }
@@ -506,6 +522,7 @@ body {
       border-bottom-right-radius: $border-radius-tiny;
     }
 
+    // Для планшетов и десктопов (min-width)
     @media (min-width: $tablet-breakpoint) {
       display: block;
       margin-top: 1rem;
@@ -530,6 +547,7 @@ body {
         color: $color-primary;
       }
 
+      // Для мобильных (max-width)
       @media (max-width: $mobile-breakpoint) {
         display: none;
 
@@ -541,6 +559,7 @@ body {
         }
       }
 
+      // Для планшетов и десктопов (min-width)
       @media (min-width: $tablet-breakpoint) {
         display: flex;
         align-items: center;
@@ -564,6 +583,7 @@ body {
       }
     }
 
+    // Для планшетов и десктопов (min-width)
     @media (min-width: $tablet-breakpoint) {
       .header__button:not(:first-child) {
         margin-right: 0.5rem;
@@ -590,6 +610,7 @@ body {
   &__top-nav {
     display: none;
 
+    // Для планшетов и десктопов (min-width)
     @media (min-width: $tablet-breakpoint) {
       display: block;
       width: 100%;
@@ -641,6 +662,7 @@ body {
   align-items: flex-start;
   gap: 1rem;
 
+  // Для планшетов и десктопов (min-width)
   @media (min-width: $tablet-breakpoint) {
     flex-direction: row;
     justify-content: space-between;
@@ -658,7 +680,13 @@ body {
     color: $color-primary;
     margin-bottom: 1rem;
   }
-
+  .main-services__image img {
+    // Для мобильных (max-width)
+    @media (max-width: $mobile-breakpoint) {
+      max-width: 100%;
+      width: 100%;
+    }
+  }
   &__read-more {
     background: none;
     border: none;
@@ -689,6 +717,7 @@ body {
   &__image {
     flex-basis: 50%;
     min-width: 0;
+    // Для мобильных (max-width)
     @media (max-width: $mobile-breakpoint) {
       width: 100%;
       display: flex;
@@ -703,6 +732,7 @@ body {
       display: block;
       border-radius: $border-radius;
 
+      // Для мобильных (max-width)
       @media (max-width: $mobile-breakpoint) {
         max-width: 80%;
       }
@@ -721,6 +751,7 @@ body {
     @include text-uppercase;
     font-weight: normal;
 
+    // Для планшетов и десктопов (min-width)
     @media (min-width: $tablet-breakpoint) {
       padding-left: 1.5rem;
     }
@@ -738,6 +769,7 @@ body {
     padding-left: 1rem;
     padding-right: 1rem;
 
+    // Для планшетов и десктопов (min-width)
     @media (min-width: $tablet-breakpoint) {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -747,17 +779,21 @@ body {
       padding-bottom: 0;
     }
 
+    // Для десктопов (min-width)
     @media (min-width: $desktop-breakpoint) {
       grid-template-columns: repeat(4, 1fr);
       gap: 1rem;
     }
 
     &.services__brands-grid--expanded {
+      // Для планшетов и десктопов (min-width)
       @media (min-width: $tablet-breakpoint) {
         grid-template-columns: repeat(3, 1fr);
+        // Для десктопов (min-width)
         @media (min-width: $desktop-breakpoint) {
           grid-template-columns: repeat(4, 1fr);
         }
+        // Для больших десктопов (min-width)
         @media (min-width: $large-desktop-breakpoint) {
           grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
         }
@@ -769,6 +805,7 @@ body {
     }
 
     .swiper-wrapper {
+      // Для планшетов и десктопов (min-width)
       @media (min-width: $tablet-breakpoint) {
         display: contents;
       }
@@ -796,11 +833,13 @@ body {
       }
 
       &--hidden-on-load {
+        // Для планшетов и десктопов (min-width)
         @media (min-width: $tablet-breakpoint) {
           display: none;
         }
       }
 
+      // Для планшетов и десктопов (min-width)
       @media (min-width: $tablet-breakpoint) {
         width: auto;
         min-width: 0;
@@ -851,6 +890,7 @@ body {
     margin-top: 1rem;
     display: block;
 
+    // Для планшетов и десктопов (min-width)
     @media (min-width: $tablet-breakpoint) {
       display: none;
     }
@@ -878,6 +918,7 @@ body {
   .services__toggle-btn {
     display: none;
 
+    // Для планшетов и десктопов (min-width)
     @media (min-width: $tablet-breakpoint) {
       display: flex;
       margin-top: 1rem;
@@ -920,6 +961,7 @@ body {
     margin-bottom: 1.25rem;
     @include text-uppercase;
     font-weight: normal;
+    // Для планшетов и десктопов (min-width)
     @media (min-width: $tablet-breakpoint) {
       padding-left: 1.5rem;
     }
@@ -936,6 +978,7 @@ body {
 
     display: block;
 
+    // Для планшетов и десктопов (min-width)
     @media (min-width: $tablet-breakpoint) {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -946,12 +989,14 @@ body {
       height: auto;
     }
 
+    // Для десктопов (min-width)
     @media (min-width: $desktop-breakpoint) {
       grid-template-columns: repeat(4, 1fr);
       gap: 2rem;
     }
 
     .swiper-wrapper.cards-container {
+      // Для планшетов и десктопов (min-width)
       @media (min-width: $tablet-breakpoint) {
         display: contents;
       }
@@ -1001,6 +1046,7 @@ body {
         }
       }
 
+      // Для планшетов и десктопов (min-width)
       @media (min-width: $tablet-breakpoint) {
         width: auto;
         min-width: 0;
@@ -1020,6 +1066,7 @@ body {
     margin-top: 1rem;
     display: block;
 
+    // Для планшетов и десктопов (min-width)
     @media (min-width: $tablet-breakpoint) {
       display: none;
     }
@@ -1047,6 +1094,7 @@ body {
   .show-all {
     display: none;
 
+    // Для планшетов и десктопов (min-width)
     @media (min-width: $tablet-breakpoint) {
       display: flex;
       margin-top: 1rem;
@@ -1089,6 +1137,7 @@ body {
     margin-bottom: 1.25rem;
     @include text-uppercase;
     font-weight: normal;
+    // Для планшетов и десктопов (min-width)
     @media (min-width: $tablet-breakpoint) {
       padding-left: 1.5rem;
     }
@@ -1102,6 +1151,7 @@ body {
     border: 1px solid $color-border;
     margin: 0 1.5rem;
 
+    // Для мобильных (max-width)
     @media (max-width: $mobile-breakpoint) {
       display: none;
     }
@@ -1119,6 +1169,7 @@ body {
   }
 
   .pricing-item {
+    // Для планшетов и десктопов (min-width)
     @media (min-width: $tablet-breakpoint) {
       @include grid-layout(2fr 1fr 1fr 150px, 20px);
       align-items: center;
@@ -1135,6 +1186,7 @@ body {
       }
     }
 
+    // Для мобильных (max-width)
     @media (max-width: $mobile-breakpoint) {
       display: flex;
       flex-direction: column;
@@ -1152,6 +1204,7 @@ body {
       font-family: 'TT Lakes Medium';
       color: $color-primary;
       font-size: 1rem;
+      // Для мобильных (max-width)
       @media (max-width: $mobile-breakpoint) {
         font-size: 0.9rem;
       }
@@ -1161,6 +1214,7 @@ body {
     .service-time {
       color: $color-secondary;
       font-size: 1rem;
+      // Для мобильных (max-width)
       @media (max-width: $mobile-breakpoint) {
         font-size: 0.85rem;
       }
@@ -1168,6 +1222,7 @@ body {
 
     .service-action {
       @include flex-center;
+      // Для мобильных (max-width)
       @media (max-width: $mobile-breakpoint) {
         width: 100%;
         justify-content: flex-end;
@@ -1210,6 +1265,7 @@ body {
     margin-top: 1rem;
     display: block;
 
+    // Для планшетов и десктопов (min-width)
     @media (min-width: $tablet-breakpoint) {
       display: none;
     }
@@ -1285,6 +1341,7 @@ body {
   font-size: 0.875rem;
   color: $color-secondary;
 
+  // Для планшетов и десктопов (min-width)
   @media (min-width: $tablet-breakpoint) {
     flex-direction: row;
     justify-content: space-between;
